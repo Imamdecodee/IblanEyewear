@@ -773,6 +773,7 @@
         .tryon-camera.active {
             display: inline-block;
             animation: fadeIn 0.5s ease;
+            width: 100%;
         }
         
         .camera-container {
@@ -862,6 +863,7 @@
             justify-content: center;
             gap: 10px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
         
         /* Packages Section */
@@ -961,7 +963,7 @@
         
         /* Footer */
         footer {
-            background-color: var( --light-gray);
+            background-color: var(--black);
             padding: 60px 0 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -981,6 +983,7 @@
         
         .footer-column ul {
             list-style: none;
+            padding: 0;
         }
         
         .footer-column ul li {
@@ -1000,6 +1003,7 @@
         .social-links {
             display: flex;
             gap: 15px;
+            margin-top: 20px;
         }
         
         .social-links a {
@@ -1153,6 +1157,16 @@
                 width: 150px;
                 height: 200px;
             }
+            
+            .camera-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .camera-controls .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
         }
         
         @media (max-width: 576px) {
@@ -1218,6 +1232,10 @@
             .match-nav .btn {
                 width: 100%;
             }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -1277,15 +1295,15 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-          <img style="width: 120px;" src="./logo.png" alt="">
+            <a href="#" class="logo">IB<span>LAN</span></a>
             
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">Virtual Try-On</a></li>
-                    <li><a href="#">Eyewear Match</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="#products">Shop</a></li>
+                    <li><a href="#virtual-tryon">Virtual Try-On</a></li>
+                    <li><a href="#eyewear-match">Eyewear Match</a></li>
+                    <li><a href="#about">About</a></li>
                 </ul>
             </nav>
             
@@ -1319,8 +1337,8 @@
             <h1>Protect Your Eye. Boost your Focus.</h1>
             <p>Discover premium eyewear designed for the digital age. Experience clarity, style, and protection with IBLAN.</p>
             <div class="hero-buttons">
-                <a href="#" class="btn">Shop Now</a>
-                <a href="#" class="btn btn-outline">Virtual Try-On</a>
+                <a href="#products" class="btn">Shop Now</a>
+                <a href="#virtual-tryon" class="btn btn-outline">Virtual Try-On</a>
             </div>
         </div>
     </section>
@@ -1358,7 +1376,7 @@
     </section>
 
     <!-- Products Section -->
-    <section class="products">
+    <section class="products" id="products">
         <div class="container">
             <h2 class="section-title">Featured Collection</h2>
             
@@ -1471,7 +1489,7 @@
     </section>
 
     <!-- Eyewear Match Section -->
-    <section class="eyewear-match">
+    <section class="eyewear-match" id="eyewear-match">
         <div class="container">
             <h2 class="section-title">Find Your Perfect Match</h2>
             
@@ -1561,7 +1579,7 @@
     </section>
 
     <!-- Virtual Try-On Section -->
-    <section class="virtual-tryon">
+    <section class="virtual-tryon" id="virtual-tryon">
         <div class="container">
             <h2 class="section-title">Virtual Try-On</h2>
             <p>See how our frames look on you before you buy with our AR technology.</p>
@@ -1723,6 +1741,18 @@
                         Standard shipping takes 3-5 business days within major cities, and 5-7 days to other locations. Express shipping is available for an additional fee.
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="about-content">
+                <p>At IBLAN, we believe that vision is more than just sight—it's about how you see the world. Born from a passion for both style and health, we are on a mission to redefine eyewear.</p>
+                <p>We craft high-quality glasses that not only protect your eyes from the demands of the digital world but also enhance your focus and reflect your unique personality.</p>
+                <a href="#" class="btn">Learn More</a>
             </div>
         </div>
     </section>
