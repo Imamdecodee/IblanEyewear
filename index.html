@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IBLAN - Protect Your Eye. Boost your Focus.</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Global Styles */
         :root {
             --primary: #00AEEF;
+            --primary-dark: #008ec9;
             --black: #000000;
             --white: #FFFFFF;
             --gray: #f5f5f5;
             --dark-gray: #333333;
+            --light-gray: #777;
         }
         
         * {
@@ -26,6 +29,7 @@
             background-color: var(--black);
             color: var(--white);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         .container {
@@ -49,8 +53,9 @@
         }
         
         .btn:hover {
-            background: #008ec9;
+            background: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 174, 239, 0.4);
         }
         
         .btn-outline {
@@ -127,10 +132,26 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
         }
         
         nav ul li a:hover {
             color: var(--primary);
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
         }
         
         .header-actions {
@@ -143,10 +164,26 @@
             margin-left: 20px;
             font-size: 1.2rem;
             transition: color 0.3s ease;
+            position: relative;
         }
         
         .header-actions a:hover {
             color: var(--primary);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .mobile-menu-btn {
@@ -172,6 +209,7 @@
         .hero-content {
             max-width: 800px;
             margin: 0 auto;
+            animation: fadeIn 1s ease;
         }
         
         .hero h1 {
@@ -259,10 +297,34 @@
             border-radius: 10px;
             overflow: hidden;
             transition: transform 0.3s ease;
+            position: relative;
         }
         
         .product-card:hover {
             transform: translateY(-10px);
+        }
+        
+        .wishlist-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        
+        .wishlist-btn.active {
+            color: #ff3366;
+        }
+        
+        .wishlist-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
         }
         
         .product-img {
@@ -303,6 +365,199 @@
             color: var(--primary);
         }
         
+        /* Product Comparison */
+        .comparison-section {
+            background-color: var(--black);
+            padding: 40px 0;
+            display: none;
+        }
+        
+        .comparison-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .comparison-table th {
+            background-color: rgba(0, 174, 239, 0.1);
+        }
+        
+        .remove-comparison {
+            background: none;
+            border: none;
+            color: var(--light-gray);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        /* Product Detail Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: var(--black);
+            margin: 50px auto;
+            max-width: 900px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .product-detail {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .product-gallery {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .product-main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+        
+        .product-thumbnails {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .product-thumbnail {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .product-thumbnail:hover, .product-thumbnail.active {
+            opacity: 1;
+            border-color: var(--primary);
+        }
+        
+        .product-info-detail {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        
+        .product-info-detail h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .product-meta {
+            margin-bottom: 20px;
+        }
+        
+        .product-meta div {
+            margin-bottom: 10px;
+            display: flex;
+        }
+        
+        .product-meta strong {
+            min-width: 120px;
+            color: var(--light-gray);
+        }
+        
+        .lens-options {
+            margin: 20px 0;
+        }
+        
+        .option-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .option-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .option-btn {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option-btn.active, .option-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .reviews-section {
+            margin-top: 30px;
+        }
+        
+        .review {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .review-author {
+            font-weight: 600;
+        }
+        
+        .review-rating {
+            color: #ffc107;
+        }
+        
         /* Eyewear Match Section */
         .eyewear-match {
             background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
@@ -325,6 +580,11 @@
             margin: 0 15px;
             width: 200px;
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
         }
         
         .step-number {
@@ -361,6 +621,7 @@
             width: 300px;
             text-align: center;
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
         
         .tryon-option:hover {
@@ -371,6 +632,60 @@
             font-size: 3rem;
             color: var(--primary);
             margin-bottom: 20px;
+        }
+        
+        .tryon-camera {
+            display: none;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .tryon-camera.active {
+            display: inline-block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .camera-feed {
+            width: 100%;
+            background: #333;
+            border-radius: 5px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .camera-placeholder {
+            font-size: 5rem;
+            color: var(--light-gray);
+        }
+        
+        .frame-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .frame-option {
+            width: 60px;
+            height: 30px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .frame-option.active {
+            border-color: var(--primary);
+            transform: scale(1.1);
         }
         
         /* Packages Section */
@@ -422,6 +737,49 @@
         .package-features li {
             padding: 10px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background-color: var(--black);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .faq-question {
+            padding: 20px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .faq-answer {
+            padding: 0 0 20px;
+            color: var(--light-gray);
+            display: none;
+        }
+        
+        .faq-answer.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .faq-toggle {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
         }
         
         /* About Section */
@@ -528,6 +886,12 @@
             transform: scale(1.1);
         }
         
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         /* Responsive Styles */
         @media (max-width: 992px) {
             .hero h1 {
@@ -544,6 +908,10 @@
             
             .mobile-menu-btn {
                 display: block;
+            }
+            
+            .product-detail {
+                flex-direction: column;
             }
         }
         
@@ -571,6 +939,10 @@
                 width: 100%;
                 max-width: 400px;
             }
+            
+            .comparison-table {
+                font-size: 0.8rem;
+            }
         }
         
         @media (max-width: 576px) {
@@ -589,6 +961,14 @@
             .feature-card, .product-card {
                 padding: 20px;
             }
+            
+            .header-actions a {
+                margin-left: 15px;
+            }
+            
+            .product-main-image {
+                height: 300px;
+            }
         }
     </style>
 </head>
@@ -596,7 +976,7 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-          <img style="width: 120px;" src="./logo.png" alt="">
+            <a href="#" class="logo">IB<span>LAN</span></a>
             
             <nav>
                 <ul>
@@ -611,7 +991,11 @@
             <div class="header-actions">
                 <a href="#"><i class="fas fa-search"></i></a>
                 <a href="#"><i class="fas fa-user"></i></a>
-                <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                <a href="#"><i class="fas fa-heart"></i></a>
+                <a href="#">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </a>
                 <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
             </div>
         </div>
@@ -675,6 +1059,7 @@
             
             <div class="products-grid">
                 <div class="product-card">
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
                     <div class="product-img">
                         <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="The Innovator">
                     </div>
@@ -683,11 +1068,12 @@
                         <div class="product-price">
                             <span class="price">₦25,000 - ₦35,000</span>
                         </div>
-                        <a href="#" class="btn btn-outline">View Details</a>
+                        <button class="btn btn-outline view-details" data-id="1">View Details</button>
                     </div>
                 </div>
                 
                 <div class="product-card">
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
                     <div class="product-img">
                         <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="The Voyager">
                     </div>
@@ -696,11 +1082,12 @@
                         <div class="product-price">
                             <span class="price">₦30,000 - ₦40,000</span>
                         </div>
-                        <a href="#" class="btn btn-outline">View Details</a>
+                        <button class="btn btn-outline view-details" data-id="2">View Details</button>
                     </div>
                 </div>
                 
                 <div class="product-card">
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
                     <div class="product-img">
                         <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad810c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="The Visionary">
                     </div>
@@ -709,7 +1096,7 @@
                         <div class="product-price">
                             <span class="price">₦28,000 - ₦38,000</span>
                         </div>
-                        <a href="#" class="btn btn-outline">View Details</a>
+                        <button class="btn btn-outline view-details" data-id="3">View Details</button>
                     </div>
                 </div>
             </div>
@@ -719,6 +1106,122 @@
             </div>
         </div>
     </section>
+
+    <!-- Product Comparison Section -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="section-title">Product Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>The Innovator <button class="remove-comparison"><i class="fas fa-times"></i></button></th>
+                        <th>The Voyager <button class="remove-comparison"><i class="fas fa-times"></i></button></th>
+                        <th>The Visionary <button class="remove-comparison"><i class="fas fa-times"></i></button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Price Range</td>
+                        <td>₦25,000 - ₦35,000</td>
+                        <td>₦30,000 - ₦40,000</td>
+                        <td>₦28,000 - ₦38,000</td>
+                    </tr>
+                    <tr>
+                        <td>Frame Material</td>
+                        <td>Titanium</td>
+                        <td>Acetate</td>
+                        <td>Stainless Steel</td>
+                    </tr>
+                    <tr>
+                        <td>Lens Options</td>
+                        <td>Prescription, Blue-light</td>
+                        <td>Sunglasses</td>
+                        <td>Prescription, Blue-light, Sunglasses</td>
+                    </tr>
+                    <tr>
+                        <td>Weight</td>
+                        <td>Lightweight (22g)</td>
+                        <td>Medium (28g)</td>
+                        <td>Lightweight (24g)</td>
+                    </tr>
+                    <tr>
+                        <td>Rating</td>
+                        <td>4.8/5</td>
+                        <td>4.6/5</td>
+                        <td>4.9/5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <div class="product-detail">
+                <div class="product-gallery">
+                    <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="The Innovator" class="product-main-image">
+                    <div class="product-thumbnails">
+                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Thumbnail 1" class="product-thumbnail active">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Thumbnail 2" class="product-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Thumbnail 3" class="product-thumbnail">
+                    </div>
+                </div>
+                <div class="product-info-detail">
+                    <h2>The Innovator</h2>
+                    <div class="product-meta">
+                        <div><strong>Price Range:</strong> ₦25,000 - ₦35,000</div>
+                        <div><strong>Frame Material:</strong> Titanium</div>
+                        <div><strong>Weight:</strong> 22g (Lightweight)</div>
+                        <div><strong>Size:</strong> Medium</div>
+                        <div><strong>Colors:</strong> Black, Silver, Navy Blue</div>
+                    </div>
+                    
+                    <div class="lens-options">
+                        <div class="option-title">Lens Type:</div>
+                        <div class="option-buttons">
+                            <button class="option-btn active">Prescription</button>
+                            <button class="option-btn">Blue-light Filtering</button>
+                            <button class="option-btn">Sunglasses</button>
+                        </div>
+                    </div>
+                    
+                    <div class="lens-options">
+                        <div class="option-title">Package:</div>
+                        <div class="option-buttons">
+                            <button class="option-btn active">Starter (₦25,000)</button>
+                            <button class="option-btn">Premium (₦35,000)</button>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 30px 0;">
+                        <button class="btn" style="margin-right: 15px;">Add to Cart</button>
+                        <button class="btn btn-outline compare-btn">Compare</button>
+                    </div>
+                    
+                    <div class="reviews-section">
+                        <h3>Customer Reviews</h3>
+                        <div class="review">
+                            <div class="review-header">
+                                <span class="review-author">James T.</span>
+                                <span class="review-rating">★★★★★</span>
+                            </div>
+                            <p>These glasses are incredibly comfortable and the blue light filtering really helps with my eye strain after long coding sessions.</p>
+                        </div>
+                        <div class="review">
+                            <div class="review-header">
+                                <span class="review-author">Sarah M.</span>
+                                <span class="review-rating">★★★★☆</span>
+                            </div>
+                            <p>Love the style and build quality. The only reason I'm giving 4 stars is that they're slightly tight on my wide head.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Eyewear Match Section -->
     <section class="eyewear-match">
@@ -757,13 +1260,13 @@
             <p>See how our frames look on you before you buy with our AR technology.</p>
             
             <div class="tryon-options">
-                <div class="tryon-option">
+                <div class="tryon-option" id="live-camera-btn">
                     <div class="tryon-icon">
                         <i class="fas fa-camera"></i>
                     </div>
                     <h3>Live Camera</h3>
                     <p>Use your device's camera for a real-time AR experience</p>
-                    <a href="#" class="btn btn-outline">Try Now</a>
+                    <a class="btn btn-outline">Try Now</a>
                 </div>
                 
                 <div class="tryon-option">
@@ -772,8 +1275,27 @@
                     </div>
                     <h3>Upload Photo</h3>
                     <p>Upload a selfie to see how frames look on you</p>
-                    <a href="#" class="btn btn-outline">Upload & Try</a>
+                    <a class="btn btn-outline">Upload & Try</a>
                 </div>
+            </div>
+            
+            <div class="tryon-camera" id="tryon-camera">
+                <div class="camera-feed">
+                    <div class="camera-placeholder">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <p>Position your face within the frame</p>
+                
+                <div class="frame-selector">
+                    <div class="frame-option active" style="background-color: #2c3e50;"></div>
+                    <div class="frame-option" style="background-color: #7f8c8d;"></div>
+                    <div class="frame-option" style="background-color: #16a085;"></div>
+                    <div class="frame-option" style="background-color: #2980b9;"></div>
+                    <div class="frame-option" style="background-color: #8e44ad;"></div>
+                </div>
+                
+                <button class="btn" style="margin-top: 20px;">Capture & Save</button>
             </div>
         </div>
     </section>
@@ -808,6 +1330,75 @@
                         <li>2 Year Warranty</li>
                     </ul>
                     <a href="#" class="btn">Select Package</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What's the difference between Starter & Premium packages?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        Premium includes protective lenses (blue-light & UV), while Starter comes with standard lenses. The Premium package also features anti-reflective coating and an extended 2-year warranty.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do I know which frames suit me?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        Use our "Eyewear Match" tool — it recommends frames based on your face shape, lifestyle, and preferences. You can also use our Virtual Try-On feature to see how frames look on you before purchasing.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Do you accept returns?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, we offer a 30-day return policy for unworn glasses in original condition. Please review our full return policy for details.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What payment methods are available?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        We accept Paystack (cards & digital payments), Flutterwave, and direct bank transfer.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How does Virtual Try-On work?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        You can either use your device's camera for a live AR preview or upload a photo to test frames. Our technology will map the glasses onto your face so you can see how they look from different angles.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How long does shipping take?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        Standard shipping takes 3-5 business days within major cities, and 5-7 days to other locations. Express shipping is available for an additional fee.
+                    </div>
                 </div>
             </div>
         </div>
@@ -882,18 +1473,7 @@
     </div>
 
     <script>
-        // Simple JavaScript for interactive elements
         document.addEventListener('DOMContentLoaded', function() {
-            // Filter buttons
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    // Here you would typically filter products
-                });
-            });
-            
             // Mobile menu toggle
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             const nav = document.querySelector('nav ul');
@@ -901,10 +1481,116 @@
                 nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
             });
             
+            // Filter buttons
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Wishlist functionality
+            const wishlistButtons = document.querySelectorAll('.wishlist-btn');
+            wishlistButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('active')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                    }
+                });
+            });
+            
+            // Product detail modal
+            const viewDetailButtons = document.querySelectorAll('.view-details');
+            const productModal = document.getElementById('product-modal');
+            const closeModal = document.querySelector('.close-modal');
+            
+            viewDetailButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    productModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            closeModal.addEventListener('click', function() {
+                productModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Thumbnail selection
+            const thumbnails = document.querySelectorAll('.product-thumbnail');
+            const mainImage = document.querySelector('.product-main-image');
+            
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    mainImage.src = this.src;
+                });
+            });
+            
+            // Option selection
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const parent = this.parentElement;
+                    const siblings = parent.querySelectorAll('.option-btn');
+                    siblings.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Comparison functionality
+            const compareBtn = document.querySelector('.compare-btn');
+            const comparisonSection = document.querySelector('.comparison-section');
+            
+            compareBtn.addEventListener('click', function() {
+                comparisonSection.classList.add('active');
+                productModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                
+                // Scroll to comparison section
+                comparisonSection.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // FAQ accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', function() {
+                    item.classList.toggle('active');
+                    const answer = item.querySelector('.faq-answer');
+                    answer.classList.toggle('active');
+                });
+            });
+            
+            // Virtual try-on
+            const liveCameraBtn = document.getElementById('live-camera-btn');
+            const tryonCamera = document.getElementById('tryon-camera');
+            
+            liveCameraBtn.addEventListener('click', function() {
+                tryonCamera.classList.toggle('active');
+            });
+            
+            // Frame selection for try-on
+            const frameOptions = document.querySelectorAll('.frame-option');
+            frameOptions.forEach(frame => {
+                frame.addEventListener('click', function() {
+                    frameOptions.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
             // Chatbot widget
             const chatbot = document.querySelector('.chatbot-widget');
             chatbot.addEventListener('click', function() {
-                alert('Chatbot support is coming soon!');
+                alert('Hello! How can I help you today?');
             });
         });
     </script>
