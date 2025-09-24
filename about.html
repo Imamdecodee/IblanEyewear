@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Iblane Eyewear — Our Story & Team</title>
+    <meta name="description" content="Meet the founder and team behind Iblane Eyewear. Learn why we design affordable, protective eyewear for everyday screen life.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Reset and Variables */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --accent: #f59e0b;
+            --gray-light: #e2e8f0;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light);
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--secondary);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Header */
+        header {
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero */
+        .about-hero {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .about-hero p {
+            font-size: 1.25rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .content-section.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .content-text {
+            flex: 1;
+        }
+
+        .content-image {
+            flex: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .content-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content-text h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        /* Founder Section */
+        .founder-section {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .founder-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .founder-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .founder-info h2 {
+            margin-bottom: 1rem;
+        }
+
+        .founder-info p {
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .founder-contact {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--secondary);
+        }
+
+        /* Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-image {
+            height: 200px;
+            background-color: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+        }
+
+        .team-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .team-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .team-info .role {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-info p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 1.5rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 2rem;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 2rem;
+        }
+
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary);
+            border-radius: 50%;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            right: -30px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::after {
+            left: -30px;
+        }
+
+        .timeline-year {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 25px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+        }
+
+        .contact-info a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .contact-info a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-section {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .about-hero {
+                padding: 60px 0;
+            }
+            
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .content-section, .content-section.reverse {
+                flex-direction: column;
+            }
+            
+            .founder-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .founder-contact {
+                justify-content: center;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item, .timeline-item:nth-child(odd) {
+                flex-direction: row;
+            }
+            
+            .timeline-content {
+                margin-left: 3rem !important;
+                margin-right: 0 !important;
+            }
+            
+            .timeline-content::after {
+                left: -40px !important;
+                right: auto !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .features-grid, .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+              <a href="index.html" class="logo"><img style="width: 110px;" src="./logo.png" alt=""></a>
+            
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html" class="active">About</a>
+                <a href="shop.html">Shop</a>
+                <a href="eyewear.html">Eyewear Match</a>
+                <a href="virtual-tryon.html">Virtual Try-On</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="#"><i class="fas fa-search"></i></a>
+                <a href="#"><i class="fas fa-shopping-bag"></i></a>
+                <a href="./Login.html" id="user-icon"><i class="fas fa-user"></i></a>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>Born from a need to protect & style your eyes</h1>
+            <p>We design lightweight, comfortable frames that help reduce digital eye strain.</p>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="section">
+        <div class="container">
+            <div class="content-section">
+                <div class="content-text">
+                    <h2>Our Story</h2>
+                    <p>Founded in 2020 by Adeola Johnson after noticing increased digital eye strain among friends and colleagues, Iblane Eyewear began as a simple mission: to create stylish, affordable eyewear that protects eyes from the harmful effects of prolonged screen time.</p>
+                    <p>What started as a small project has grown into a passionate team dedicated to combining fashion with function. We believe everyone deserves access to quality blue-light protection without compromising on style.</p>
+                    <a href="#mission" class="btn btn-primary">Our Mission</a>
+                </div>
+                <div class="content-image">
+                    <div style="width:100%;height:300px;background-color:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#64748b;">
+                        <i class="fas fa-glasses fa-5x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founder Section -->
+    <section class="section" style="background-color: #f8fafc;">
+        <div class="container">
+            <div class="founder-section">
+                <div class="founder-image">
+                    <div style="width:100%;height:100%;background-color:#cbd5e1;display:flex;align-items:center;justify-content:center;color:#64748b;">
+                        <i class="fas fa-user fa-3x"></i>
+                    </div>
+                </div>
+                <div class="founder-info">
+                    <h2>Adeola Johnson, Founder & CEO</h2>
+                    <p>Adeola has over 10 years of experience in optical retail and eyewear design. After completing her degree in Optometry, she noticed a gap in the market for affordable, stylish blue-light glasses that didn't compromise on quality.</p>
+                    <p>Her vision for Iblane is to create eyewear that seamlessly integrates into modern lifestyles while providing essential protection against digital eye strain. She's passionate about combining Nigerian design aesthetics with global trends.</p>
+                    <div class="founder-contact">
+                        <a href="#" class="btn btn-secondary"><i class="fab fa-linkedin"></i> Connect on LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product & Services Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Our Product & Services</h2>
+            <p class="section-subtitle">We combine cutting-edge technology with premium materials to create eyewear that protects and enhances your style</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Blue-Light Lenses</h3>
+                    <p>Our lenses filter harmful blue light from screens, reducing eye strain and improving sleep quality.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3>Anti-Glare Coating</h3>
+                    <p>Advanced anti-reflective coating minimizes glare from screens and artificial lighting.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Prescription Ready</h3>
+                    <p>All our frames can be fitted with prescription lenses to meet your vision needs.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Virtual Try-On</h3>
+                    <p>Our innovative technology lets you try frames virtually before making a purchase.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <h3>Additional Services</h3>
+                <p>We offer virtual consultations with our eyewear specialists and corporate packages for businesses looking to protect their employees' eye health.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section" style="background-color: #f8fafc;">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <p class="section-subtitle">Passionate individuals dedicated to protecting your vision in style</p>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user fa-3x"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Chinedu Okoro</h3>
+                        <div class="role">Head of Product Design</div>
+                        <p>Former optical engineer with a passion for minimalist frame designs.</p>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user fa-3x"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Amara Eze</h3>
+                        <div class="role">Technology Lead</div>
+                        <p>Developed our virtual try-on technology with 8 years in AR/VR experience.</p>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user fa-3x"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Bola Adeyemi</h3>
+                        <div class="role">Customer Experience Manager</div>
+                        <p>Ensures every customer finds their perfect fit with personalized guidance.</p>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user fa-3x"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Tunde Okafor</h3>
+                        <div class="role">Operations Director</div>
+                        <p>Manages our supply chain to ensure quality and timely delivery across Nigeria.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="mailto:careers@iblane.com" class="btn btn-primary">Join the Team →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Section -->
+    <section class="section">
+        <div class="container">
+            <div class="content-section reverse">
+                <div class="content-text">
+                    <h2>Sustainability & Materials</h2>
+                    <p>At Iblane, we're committed to minimizing our environmental impact while delivering premium products. Our frames are crafted from sustainable materials including bio-acetate and recycled metals.</p>
+                    <p>We use minimal, recyclable packaging and partner with carbon-neutral shipping providers where possible. Our goal is to create eyewear that's not only good for your eyes but also for the planet.</p>
+                </div>
+                <div class="content-image">
+                    <div style="width:100%;height:300px;background-color:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#64748b;">
+                        <i class="fas fa-leaf fa-5x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Press & Milestones Section -->
+    <section class="section" style="background-color: #f8fafc;">
+        <div class="container">
+            <h2 class="section-title">Press & Milestones</h2>
+            <p class="section-subtitle">Our journey from startup to leading eyewear brand in Nigeria</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2020</div>
+                        <h3>Company Founded</h3>
+                        <p>Iblane Eyewear was established with a mission to create affordable, stylish blue-light glasses.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2021</div>
+                        <h3>First Collection Launched</h3>
+                        <p>Our debut collection of 10 frame styles quickly sold out within the first two months.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2022</div>
+                        <h3>Virtual Try-On Released</h3>
+                        <p>Launched our innovative AR try-on feature, increasing customer confidence in online purchases.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2023</div>
+                        <h3>10,000+ Customers Served</h3>
+                        <p>Reached a significant milestone of serving over 10,000 satisfied customers across Nigeria.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section">
+        <div class="container">
+            <div style="text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: var(--border-radius);">
+                <h2 style="margin-bottom: 1rem;">Ready to protect your eyes in style?</h2>
+                <p style="max-width: 600px; margin: 0 auto 2rem;">Explore our collection of stylish, protective eyewear designed for modern life.</p>
+                <a href="shop.html" class="btn btn-primary">Shop Our Collection →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="shop.html?collection=blue-light">Blue-Light Glasses</a></li>
+                        <li><a href="shop.html?collection=everyday">Everyday Frames</a></li>
+                        <li><a href="shop.html?collection=titanium">Lightweight Titanium</a></li>
+                        <li><a href="shop.html?collection=kids">Kids Collection</a></li>
+                        <li><a href="shop.html">All Products</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Help</h3>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="returns.html">Returns & Exchanges</a></li>
+                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="size-guide.html">Size Guide</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Iblane</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="press.html">Press</a></li>
+                        <li><a href="affiliates.html">Affiliate Program</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <a href="tel:+2348153238691">
+                            <i class="fab fa-whatsapp"></i> +234 815 323 8691
+                        </a>
+                        <a href="mailto:hello@iblane.com">
+                            <i class="fas fa-envelope"></i> hello@iblane.com
+                        </a>
+                    </div>
+                    
+                    <h3 style="margin-top: 2rem;">Payment Methods</h3>
+                    <div class="payment-methods">
+                        <div class="payment-icon">Paystack</div>
+                        <div class="payment-icon">Flutterwave</div>
+                        <div class="payment-icon">Bank Transfer</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Iblane Eyewear. All rights reserved. | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        // Update mobile menu display on window resize
+        window.addEventListener('resize', function() {
+            const navLinks = document.querySelector('.nav-links');
+            if (window.innerWidth > 768) {
+                navLinks.style.display = 'flex';
+            } else {
+                navLinks.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

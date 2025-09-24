@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ib001",
+    "name": "The Innovator — Clear Frame",
+    "slug": "innovator-clear",
+    "price": 12500,
+    "currency": "NGN",
+    "collections": ["blue-light","everyday"],
+    "frame_shape": "rectangle",
+    "face_shapes": ["round","oval"],
+    "material": "acetate",
+    "lens_options": ["blue-light","prescription-ready"],
+    "weight_g": 18,
+    "rating": 4.7,
+    "images": [
+      "https://photos.app.goo.gl/KjCHsBAv7ttUyurp6#img1",
+      "https://photos.app.goo.gl/KjCHsBAv7ttUyurp6#img2"
+    ],
+    "overlay_image": "https://your-cdn/overlays/innovator-clear.png",
+    "dimensions_mm": {"lens_width": 52, "bridge": 18, "temple": 140},
+    "sku": "IB-001",
+    "description": "Lightweight acetate rectangle frame with anti-glare, blue-light filter lens option."
+  },
+  {
+    "id": "ib002",
+    "name": "Aviator Classic — Metal",
+    "slug": "aviator-classic",
+    "price": 17500,
+    "currency": "NGN",
+    "collections": ["vintage","metal"],
+    "frame_shape": "aviator",
+    "face_shapes": ["square","oval","heart"],
+    "material": "metal",
+    "lens_options": ["blue-light","polarized","prescription-ready"],
+    "weight_g": 24,
+    "rating": 4.5,
+    "images": ["https://photos.app.goo.gl/KjCHsBAv7ttUyurp6#img3"],
+    "overlay_image": "https://your-cdn/overlays/aviator-classic.png",
+    "dimensions_mm": {"lens_width": 58, "bridge": 14, "temple": 145},
+    "sku": "IB-002",
+    "description": "Timeless aviator silhouette in lightweight metal — great for driving and outdoor use."
+  },
+  {
+    "id": "ib003",
+    "name": "The Minimalist — Thin Metal",
+    "slug": "minimalist-thin",
+    "price": 9000,
+    "currency": "NGN",
+    "collections": ["everyday","thin"],
+    "frame_shape": "round",
+    "face_shapes": ["square","oval"],
+    "material": "metal",
+    "lens_options": ["blue-light","prescription-ready"],
+    "weight_g": 12,
+    "rating": 4.6,
+    "images": ["https://photos.app.goo.gl/KjCHsBAv7ttUyurp6#img4"],
+    "overlay_image": "https://your-cdn/overlays/minimalist-thin.png",
+    "dimensions_mm": {"lens_width": 48, "bridge": 20, "temple": 138},
+    "sku": "IB-003",
+    "description": "Slim metal frames for a subtle, professional look."
+  }
+]

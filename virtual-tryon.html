@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On — Live Camera & Upload Photo | Iblane Eyewear</title>
+    <meta name="description" content="Try frames on instantly with our virtual try-on technology. Use your live camera or upload a photo to see how our glasses look on you.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Reset and Variables */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --accent: #f59e0b;
+            --gray-light: #e2e8f0;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--gray-light);
+            color: var(--secondary);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light);
+            transform: translateY(-2px);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        /* Header */
+        header {
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .tryon-hero {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .tryon-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tryon-hero p {
+            font-size: 1.25rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Try-On Layout */
+        .tryon-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            min-height: 600px;
+        }
+
+        /* Camera/Preview Pane */
+        .camera-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .camera-container {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1;
+        }
+
+        .camera-view {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            background: #1e293b;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            position: relative;
+        }
+
+        #video-element, #photo-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .frame-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 100px;
+            background: transparent;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .camera-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .control-btn {
+            background: white;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .control-btn:hover {
+            background: var(--light);
+            border-color: var(--primary);
+        }
+
+        .control-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Upload Panel */
+        .upload-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .upload-panel h3 {
+            margin-bottom: 1rem;
+        }
+
+        .upload-hint {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        /* Frames Pane */
+        .frames-pane {
+            width: 350px;
+            flex-shrink: 0;
+        }
+
+        .frames-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .frames-carousel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .frame-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .frame-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .frame-card.selected {
+            border-color: var(--primary);
+        }
+
+        .frame-image {
+            height: 120px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .frame-content {
+            padding: 1rem;
+        }
+
+        .frame-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .frame-price {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .frame-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .frame-actions .btn {
+            flex: 1;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Adjustment Controls */
+        .adjustment-controls {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .adjustment-controls h3 {
+            margin-bottom: 1rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--gray-light);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .download-hint {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+        }
+
+        .privacy-link {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            text-align: center;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        .privacy-link:hover {
+            color: var(--primary);
+        }
+
+        /* Fallback Message */
+        .fallback-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .fallback-message h3 {
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 25px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+        }
+
+        .contact-info a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .contact-info a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .tryon-container {
+                flex-direction: column;
+            }
+            
+            .frames-pane {
+                width: 100%;
+            }
+            
+            .frames-carousel {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .tryon-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .camera-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tryon-hero {
+                padding: 60px 0;
+            }
+            
+            .tryon-hero h1 {
+                font-size: 1.75rem;
+            }
+            
+            .camera-view {
+                height: 300px;
+            }
+            
+            .frames-carousel {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+              <a href="index.html" class="logo"><img style="width: 110px;" src="./logo.png" alt=""></a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="shop.html">Shop</a>
+                <a href="eyewear.html">Eyewear Match</a>
+                <a href="virtual-tryon.html" class="active">Virtual Try-On</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="#"><i class="fas fa-search"></i></a>
+                <a href="#"><i class="fas fa-shopping-bag"></i></a>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="tryon-hero">
+        <div class="container">
+            <h1>Try frames on instantly — Live or upload a selfie</h1>
+            <p>Choose a frame below, open your camera or upload a photo.</p>
+        </div>
+    </section>
+
+    <!-- Try-On Interface -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <!-- Fallback Message (hidden by default) -->
+            <div class="fallback-message" id="fallback-message">
+                <h3>Camera Access Denied</h3>
+                <p>To use the live camera feature, please allow camera access in your browser settings.</p>
+                <p>Alternatively, you can upload a photo using the upload section below.</p>
+                <button class="btn btn-primary" style="margin-top: 1rem;" onclick="hideFallback()">Got it</button>
+            </div>
+
+            <div class="tryon-container">
+                <!-- Left Pane: Camera/Preview -->
+                <div class="camera-pane">
+                    <div class="camera-container">
+                        <div class="camera-view">
+                            <video id="video-element" autoplay playsinline style="display: none;"></video>
+                            <canvas id="photo-canvas" style="display: none;"></canvas>
+                            <img id="photo-preview" style="display: none;" alt="Uploaded photo preview">
+                            <div class="frame-overlay" id="frame-overlay">
+                                Frame will appear here when selected
+                            </div>
+                        </div>
+                        
+                        <div class="camera-controls">
+                            <button class="control-btn" id="start-camera">
+                                <i class="fas fa-camera"></i> Start Camera
+                            </button>
+                            <button class="control-btn" id="switch-camera" disabled>
+                                <i class="fas fa-sync-alt"></i> Switch Camera
+                            </button>
+                            <button class="control-btn" id="flip-camera" disabled>
+                                <i class="fas fa-undo"></i> Flip
+                            </button>
+                            <button class="control-btn" id="auto-fit" disabled>
+                                <i class="fas fa-magic"></i> Auto-Fit
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Upload Panel -->
+                    <div class="upload-panel">
+                        <h3>Upload a photo</h3>
+                        <p class="upload-hint">Use a clear, front-facing headshot with hair pulled back. Recommended: 1200 × 1200 px, max 5 MB, JPEG/PNG.</p>
+                        
+                        <div class="upload-area" id="upload-area">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload or drag and drop</p>
+                            <input type="file" id="file-input" accept="image/jpeg,image/png">
+                        </div>
+                        
+                        <button class="btn btn-primary" id="upload-try-btn" disabled>Upload & Try</button>
+                    </div>
+                </div>
+
+                <!-- Right Pane: Frames Carousel -->
+                <div class="frames-pane">
+                    <div class="frames-header">
+                        <h3>Available Frames</h3>
+                        <span id="frames-count">12 frames</span>
+                    </div>
+                    
+                    <div class="frames-carousel" id="frames-carousel">
+                        <!-- Frame cards will be populated by JavaScript -->
+                    </div>
+                    
+                    <!-- Adjustment Controls -->
+                    <div class="adjustment-controls">
+                        <h3>Adjust Frame</h3>
+                        
+                        <div class="control-group">
+                            <div class="control-label">
+                                <span>Scale</span>
+                                <span id="scale-value">100%</span>
+                            </div>
+                            <input type="range" min="50" max="150" value="100" class="slider" id="scale-slider">
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="control-label">
+                                <span>Rotate</span>
+                                <span id="rotate-value">0°</span>
+                            </div>
+                            <input type="range" min="-30" max="30" value="0" class="slider" id="rotate-slider">
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="control-label">
+                                <span>Vertical Position</span>
+                                <span id="vertical-value">0px</span>
+                            </div>
+                            <input type="range" min="-50" max="50" value="0" class="slider" id="vertical-slider">
+                        </div>
+                        
+                        <div class="download-section">
+                            <button class="btn btn-primary" id="download-btn" disabled>
+                                <i class="fas fa-download"></i> Download Image
+                            </button>
+                            <p class="download-hint">Saved images are only stored locally unless you choose to save to account.</p>
+                        </div>
+                    </div>
+                    
+                    <p class="privacy-link" id="privacy-link">How we handle photos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Modal -->
+    <div class="modal" id="privacy-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="privacy-modal-close">&times;</button>
+            <div class="modal-header">
+                <h2>How We Handle Your Photos</h2>
+            </div>
+            
+            <p>At Iblane, we take your privacy seriously. Here's how we handle your photos:</p>
+            
+            <ul style="margin: 1rem 0 1rem 1.5rem;">
+                <li>Photos uploaded for virtual try-on are processed locally in your browser whenever possible.</li>
+                <li>If face detection is required, images may be temporarily processed on our secure servers but are deleted immediately after processing.</li>
+                <li>We do not store your photos unless you explicitly choose to save them to your account.</li>
+                <li>Saved images are encrypted and stored securely with access limited to authorized personnel.</li>
+                <li>We never share your photos with third parties without your explicit consent.</li>
+            </ul>
+            
+            <p>For more details, please read our full <a href="privacy.html">Privacy Policy</a>.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="shop.html?collection=blue-light">Blue-Light Glasses</a></li>
+                        <li><a href="shop.html?collection=everyday">Everyday Frames</a></li>
+                        <li><a href="shop.html?collection=titanium">Lightweight Titanium</a></li>
+                        <li><a href="shop.html?collection=kids">Kids Collection</a></li>
+                        <li><a href="shop.html">All Products</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Help</h3>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="returns.html">Returns & Exchanges</a></li>
+                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="size-guide.html">Size Guide</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Iblane</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="press.html">Press</a></li>
+                        <li><a href="affiliates.html">Affiliate Program</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <a href="tel:+2348153238691">
+                            <i class="fab fa-whatsapp"></i> +234 815 323 8691
+                        </a>
+                        <a href="mailto:hello@iblane.com">
+                            <i class="fas fa-envelope"></i> hello@iblane.com
+                        </a>
+                    </div>
+                    
+                    <h3 style="margin-top: 2rem;">Payment Methods</h3>
+                    <div class="payment-methods">
+                        <div class="payment-icon">Paystack</div>
+                        <div class="payment-icon">Flutterwave</div>
+                        <div class="payment-icon">Bank Transfer</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Iblane Eyewear. All rights reserved. | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample frame data
+        const framesData = [
+            { id: 1, name: "Aviator Classic", price: "₦15,000", image: "https://via.placeholder.com/200x100.png?text=Aviator" },
+            { id: 2, name: "Round Vintage", price: "₦12,500", image: "https://via.placeholder.com/200x100.png?text=Round" },
+            { id: 3, name: "Square Modern", price: "₦18,000", image: "https://via.placeholder.com/200x100.png?text=Square" },
+            { id: 4, name: "Cat-Eye Elegance", price: "₦16,500", image: "https://via.placeholder.com/200x100.png?text=Cat-Eye" },
+            { id: 5, name: "Titanium Light", price: "₦22,000", image: "https://via.placeholder.com/200x100.png?text=Titanium" },
+            { id: 6, name: "Classic Black", price: "₦14,000", image: "https://via.placeholder.com/200x100.png?text=Black" },
+            { id: 7, name: "Bold Statement", price: "₦19,500", image: "https://via.placeholder.com/200x100.png?text=Bold" },
+            { id: 8, name: "Minimalist", price: "₦13,000", image: "https://via.placeholder.com/200x100.png?text=Minimal" },
+            { id: 9, name: "Sporty Fit", price: "₦17,500", image: "https://via.placeholder.com/200x100.png?text=Sport" },
+            { id: 10, name: "Designer Frame", price: "₦25,000", image: "https://via.placeholder.com/200x100.png?text=Designer" },
+            { id: 11, name: "Retro Style", price: "₦16,000", image: "https://via.placeholder.com/200x100.png?text=Retro" },
+            { id: 12, name: "Modern Aviator", price: "₦20,000", image: "https://via.placeholder.com/200x100.png?text=Modern+Aviator" }
+        ];
+
+        // DOM Elements
+        const videoElement = document.getElementById('video-element');
+        const photoPreview = document.getElementById('photo-preview');
+        const photoCanvas = document.getElementById('photo-canvas');
+        const frameOverlay = document.getElementById('frame-overlay');
+        const startCameraBtn = document.getElementById('start-camera');
+        const switchCameraBtn = document.getElementById('switch-camera');
+        const flipCameraBtn = document.getElementById('flip-camera');
+        const autoFitBtn = document.getElementById('auto-fit');
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const uploadTryBtn = document.getElementById('upload-try-btn');
+        const framesCarousel = document.getElementById('frames-carousel');
+        const scaleSlider = document.getElementById('scale-slider');
+        const rotateSlider = document.getElementById('rotate-slider');
+        const verticalSlider = document.getElementById('vertical-slider');
+        const scaleValue = document.getElementById('scale-value');
+        const rotateValue = document.getElementById('rotate-value');
+        const verticalValue = document.getElementById('vertical-value');
+        const downloadBtn = document.getElementById('download-btn');
+        const privacyLink = document.getElementById('privacy-link');
+        const privacyModal = document.getElementById('privacy-modal');
+        const privacyModalClose = document.getElementById('privacy-modal-close');
+        const fallbackMessage = document.getElementById('fallback-message');
+        const framesCount = document.getElementById('frames-count');
+
+        // State variables
+        let currentStream = null;
+        let selectedFrame = null;
+        let isCameraActive = false;
+        let isPhotoUploaded = false;
+        let currentImageMode = 'camera'; // 'camera' or 'photo'
+
+        // Initialize the page
+        function initPage() {
+            populateFramesCarousel();
+            setupEventListeners();
+            updateFramesCount();
+        }
+
+        // Populate frames carousel
+        function populateFramesCarousel() {
+            framesCarousel.innerHTML = '';
+            
+            framesData.forEach(frame => {
+                const frameCard = document.createElement('div');
+                frameCard.className = 'frame-card';
+                frameCard.setAttribute('data-frame-id', frame.id);
+                
+                frameCard.innerHTML = `
+                    <div class="frame-image">
+                        <img src="${frame.image}" alt="${frame.name}">
+                    </div>
+                    <div class="frame-content">
+                        <div class="frame-title">${frame.name}</div>
+                        <div class="frame-price">${frame.price}</div>
+                        <div class="frame-actions">
+                            <button class="btn btn-primary btn-small try-frame-btn">Try On</button>
+                            <button class="btn btn-secondary btn-small view-frame-btn">View</button>
+                        </div>
+                    </div>
+                `;
+                
+                framesCarousel.appendChild(frameCard);
+            });
+        }
+
+        // Update frames count display
+        function updateFramesCount() {
+            framesCount.textContent = `${framesData.length} frames`;
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Camera controls
+            startCameraBtn.addEventListener('click', toggleCamera);
+            switchCameraBtn.addEventListener('click', switchCamera);
+            flipCameraBtn.addEventListener('click', flipCamera);
+            autoFitBtn.addEventListener('click', autoFitFrame);
+            
+            // Upload functionality
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('drop', handleFileDrop);
+            fileInput.addEventListener('change', handleFileSelect);
+            uploadTryBtn.addEventListener('click', processUploadedPhoto);
+            
+            // Frame selection
+            framesCarousel.addEventListener('click', handleFrameSelection);
+            
+            // Adjustment controls
+            scaleSlider.addEventListener('input', updateFrameAdjustments);
+            rotateSlider.addEventListener('input', updateFrameAdjustments);
+            verticalSlider.addEventListener('input', updateFrameAdjustments);
+            
+            // Download button
+            downloadBtn.addEventListener('click', downloadImage);
+            
+            // Privacy modal
+            privacyLink.addEventListener('click', () => privacyModal.style.display = 'flex');
+            privacyModalClose.addEventListener('click', () => privacyModal.style.display = 'none');
+            window.addEventListener('click', (e) => {
+                if (e.target === privacyModal) privacyModal.style.display = 'none';
+            });
+            
+            // Mobile menu (if needed)
+            document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+                const navLinks = document.querySelector('.nav-links');
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+        }
+
+        // Toggle camera on/off
+        async function toggleCamera() {
+            if (isCameraActive) {
+                stopCamera();
+            } else {
+                await startCamera();
+            }
+        }
+
+        // Start camera
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'user',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } 
+                });
+                
+                currentStream = stream;
+                videoElement.srcObject = stream;
+                videoElement.style.display = 'block';
+                photoPreview.style.display = 'none';
+                
+                isCameraActive = true;
+                currentImageMode = 'camera';
+                
+                startCameraBtn.innerHTML = '<i class="fas fa-stop"></i> Stop Camera';
+                startCameraBtn.classList.add('active');
+                switchCameraBtn.disabled = false;
+                flipCameraBtn.disabled = false;
+                autoFitBtn.disabled = false;
+                
+                // Hide fallback message if it was shown
+                fallbackMessage.style.display = 'none';
+                
+                // Check if multiple cameras are available
+                checkMultipleCameras();
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                showFallbackMessage();
+            }
+        }
+
+        // Stop camera
+        function stopCamera() {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                currentStream = null;
+            }
+            
+            videoElement.srcObject = null;
+            videoElement.style.display = 'none';
+            
+            isCameraActive = false;
+            startCameraBtn.innerHTML = '<i class="fas fa-camera"></i> Start Camera';
+            startCameraBtn.classList.remove('active');
+            switchCameraBtn.disabled = true;
+            flipCameraBtn.disabled = true;
+            autoFitBtn.disabled = true;
+            
+            // Clear frame overlay
+            clearFrameOverlay();
+        }
+
+        // Switch between front and rear cameras
+        async function switchCamera() {
+            if (!currentStream) return;
+            
+            stopCamera();
+            
+            try {
+                const constraints = {
+                    video: {
+                        facingMode: videoElement.srcObject.getVideoTracks()[0].getSettings().facingMode === 'user' ? 'environment' : 'user'
+                    }
+                };
+                
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                currentStream = stream;
+                videoElement.srcObject = stream;
+                videoElement.style.display = 'block';
+                
+                isCameraActive = true;
+                startCameraBtn.innerHTML = '<i class="fas fa-stop"></i> Stop Camera';
+                startCameraBtn.classList.add('active');
+            } catch (error) {
+                console.error('Error switching camera:', error);
+                // Fall back to original camera
+                await startCamera();
+            }
+        }
+
+        // Check if multiple cameras are available
+        async function checkMultipleCameras() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+                
+                if (videoDevices.length > 1) {
+                    switchCameraBtn.disabled = false;
+                } else {
+                    switchCameraBtn.disabled = true;
+                }
+            } catch (error) {
+                console.error('Error enumerating devices:', error);
+                switchCameraBtn.disabled = true;
+            }
+        }
+
+        // Flip camera horizontally (mirror effect)
+        function flipCamera() {
+            if (videoElement.style.transform === 'scaleX(-1)') {
+                videoElement.style.transform = 'scaleX(1)';
+                flipCameraBtn.classList.remove('active');
+            } else {
+                videoElement.style.transform = 'scaleX(-1)';
+                flipCameraBtn.classList.add('active');
+            }
+        }
+
+        // Auto-fit frame to face
+        function autoFitFrame() {
+            // In a real implementation, this would use face detection
+            // For this demo, we'll simulate it with random adjustments
+            
+            // Reset sliders to default values
+            scaleSlider.value = 100;
+            rotateSlider.value = 0;
+            verticalSlider.value = 0;
+            
+            // Update display values
+            scaleValue.textContent = '100%';
+            rotateValue.textContent = '0°';
+            verticalValue.textContent = '0px';
+            
+            // Apply to frame overlay
+            updateFrameOverlay();
+            
+            // Show success feedback
+            showToast('Frame auto-fitted to detected face');
+        }
+
+        // Handle file selection for upload
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                validateAndPreviewFile(file);
+            }
+        }
+
+        // Handle drag over event
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            uploadArea.style.borderColor = "var(--primary)";
+            uploadArea.style.backgroundColor = 'var(--light)';
+        }
+
+        // Handle file drop
+        function handleFileDrop(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                validateAndPreviewFile(files[0]);
+            }
+            
+            uploadArea.style.borderColor = '';
+            uploadArea.style.backgroundColor = '';
+        }
+
+        // Validate and preview uploaded file
+        function validateAndPreviewFile(file) {
+            // Check file type
+            if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
+                showToast('Please upload a JPEG or PNG image');
+                return;
+            }
+            
+            // Check file size (5MB limit)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('File size must be less than 5MB');
+                return;
+            }
+            
+            // Preview the image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoPreview.src = e.target.result;
+                uploadTryBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Process uploaded photo for try-on
+        function processUploadedPhoto() {
+            if (!photoPreview.src) return;
+            
+            // Stop camera if active
+            if (isCameraActive) {
+                stopCamera();
+            }
+            
+            // Show the uploaded photo
+            photoPreview.style.display = 'block';
+            videoElement.style.display = 'none';
+            
+            isPhotoUploaded = true;
+            currentImageMode = 'photo';
+            
+            // Enable adjustment controls
+            autoFitBtn.disabled = false;
+            downloadBtn.disabled = false;
+            
+            // Auto-fit the frame if one is selected
+            if (selectedFrame) {
+                autoFitFrame();
+            }
+            
+            showToast('Photo uploaded successfully');
+        }
+
+        // Handle frame selection
+        function handleFrameSelection(event) {
+            const target = event.target;
+            
+            if (target.classList.contains('try-frame-btn') || target.closest('.try-frame-btn')) {
+                const frameCard = target.closest('.frame-card');
+                const frameId = frameCard.getAttribute('data-frame-id');
+                
+                // Remove selection from all frames
+                document.querySelectorAll('.frame-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                
+                // Select the clicked frame
+                frameCard.classList.add('selected');
+                selectedFrame = framesData.find(frame => frame.id == frameId);
+                
+                // Update frame overlay
+                updateFrameOverlay();
+                
+                // Enable download button
+                downloadBtn.disabled = false;
+                
+                showToast(`Trying on ${selectedFrame.name}`);
+            } else if (target.classList.contains('view-frame-btn') || target.closest('.view-frame-btn')) {
+                const frameCard = target.closest('.frame-card');
+                const frameId = frameCard.getAttribute('data-frame-id');
+                const frame = framesData.find(frame => frame.id == frameId);
+                
+                // In a real implementation, this would navigate to the product page
+                showToast(`Viewing details for ${frame.name}`);
+            }
+        }
+
+        // Update frame adjustments based on slider values
+        function updateFrameAdjustments() {
+            // Update display values
+            scaleValue.textContent = `${scaleSlider.value}%`;
+            rotateValue.textContent = `${rotateSlider.value}°`;
+            verticalValue.textContent = `${verticalSlider.value}px`;
+            
+            // Apply to frame overlay
+            updateFrameOverlay();
+        }
+
+        // Update the frame overlay with current adjustments
+        function updateFrameOverlay() {
+            if (!selectedFrame) return;
+            
+            const scale = scaleSlider.value / 100;
+            const rotate = rotateSlider.value;
+            const vertical = verticalSlider.value;
+            
+            // Update frame overlay content
+            frameOverlay.innerHTML = `
+                <img src="${selectedFrame.image}" alt="${selectedFrame.name}" 
+                     style="width: 100%; height: 100%; object-fit: contain;
+                            transform: scale(${scale}) rotate(${rotate}deg);
+                            position: relative; top: ${vertical}px;">
+            `;
+        }
+
+        // Clear the frame overlay
+        function clearFrameOverlay() {
+            frameOverlay.innerHTML = 'Frame will appear here when selected';
+            selectedFrame = null;
+            downloadBtn.disabled = true;
+            
+            // Reset sliders
+            scaleSlider.value = 100;
+            rotateSlider.value = 0;
+            verticalSlider.value = 0;
+            scaleValue.textContent = '100%';
+            rotateValue.textContent = '0°';
+            verticalValue.textContent = '0px';
+        }
+
+        // Download the composite image
+        function downloadImage() {
+            if (!selectedFrame) return;
+            
+            // In a real implementation, this would composite the frame with the camera/image
+            // For this demo, we'll create a simple download of the frame with adjustments
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = 800;
+            canvas.height = 600;
+            
+            // Draw background (camera or uploaded photo)
+            if (currentImageMode === 'camera' && isCameraActive) {
+                // In a real implementation, we would draw the current video frame
+                ctx.fillStyle = '#1e293b';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Add text indicating this is a demo
+                ctx.fillStyle = 'white';
+                ctx.font = '20px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('Virtual Try-On Demo', canvas.width/2, canvas.height/2);
+                ctx.fillText('(In a real implementation, your photo would be here)', canvas.width/2, canvas.height/2 + 30);
+            } else if (currentImageMode === 'photo' && isPhotoUploaded) {
+                // Draw the uploaded photo
+                const img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    drawFrameOnCanvas(ctx, canvas);
+                    triggerDownload(canvas);
+                };
+                img.src = photoPreview.src;
+                return; // Exit early, download will trigger after image loads
+            } else {
+                // No image available
+                ctx.fillStyle = '#f1f5f9';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#64748b';
+                ctx.font = '20px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('No image available for download', canvas.width/2, canvas.height/2);
+            }
+            
+            drawFrameOnCanvas(ctx, canvas);
+            triggerDownload(canvas);
+        }
+
+        // Draw the selected frame on the canvas
+        function drawFrameOnCanvas(ctx, canvas) {
+            if (!selectedFrame) return;
+            
+            const scale = scaleSlider.value / 100;
+            const rotate = (rotateSlider.value * Math.PI) / 180;
+            const vertical = verticalSlider.value;
+            
+            // Save the current context state
+            ctx.save();
+            
+            // Translate to the center of where we want to draw the frame
+            ctx.translate(canvas.width / 2, canvas.height / 2 + vertical);
+            
+            // Apply rotation
+            ctx.rotate(rotate);
+            
+            // Apply scale
+            ctx.scale(scale, scale);
+            
+            // Draw frame (in a real implementation, this would be the actual frame image)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillRect(-100, -50, 200, 100);
+            
+            ctx.fillStyle = '#2563eb';
+            ctx.font = '14px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText(selectedFrame.name, 0, 0);
+            
+            // Restore the context state
+            ctx.restore();
+        }
+
+        // Trigger the download of the canvas image
+        function triggerDownload(canvas) {
+            const link = document.createElement('a');
+            link.download = `iblane-tryon-${selectedFrame.name.replace(/\s+/g, '-').toLowerCase()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            showToast('Image downloaded successfully');
+        }
+
+        // Show fallback message when camera access is denied
+        function showFallbackMessage() {
+            fallbackMessage.style.display = 'block';
+        }
+
+        // Hide fallback message
+        function hideFallback() {
+            fallbackMessage.style.display = 'none';
+        }
+
+        // Show toast message
+        function showToast(message) {
+            // Create toast element if it doesn't exist
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--dark);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: var(--border-radius);
+                    z-index: 1000;
+                    font-size: 0.9rem;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                `;
+                document.body.appendChild(toast);
+            }
+            
+            // Update message and show
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 3000);
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
