@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout — Iblane Eyewear</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #3498db;
+        }
+
+        /* Checkout Progress */
+        .checkout-progress {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .checkout-progress:before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .step-label {
+            font-size: 12px;
+            text-align: center;
+            color: #95a5a6;
+        }
+
+        .progress-step.active .step-circle {
+            background-color: #3498db;
+        }
+
+        .progress-step.active .step-label {
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .progress-step.completed .step-circle {
+            background-color: #2ecc71;
+        }
+
+        /* Checkout Form */
+        .checkout-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .checkout-form {
+                grid-template-columns: 1fr 350px;
+            }
+        }
+
+        .form-section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #2c3e50;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 576px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Shipping Method */
+        .shipping-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .shipping-option:hover {
+            border-color: #3498db;
+        }
+
+        .shipping-option.selected {
+            border-color: #3498db;
+            background-color: #f0f8ff;
+        }
+
+        .shipping-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .shipping-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .shipping-eta {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .shipping-price {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* Payment Methods */
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-option:hover {
+            border-color: #3498db;
+        }
+
+        .payment-option.selected {
+            border-color: #3498db;
+            background-color: #f0f8ff;
+        }
+
+        .payment-icon {
+            margin-right: 15px;
+            font-size: 24px;
+            color: #3498db;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .payment-desc {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #2c3e50;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .summary-totals {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .total-row.final {
+            font-weight: 600;
+            font-size: 18px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            width: auto;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: transparent;
+            color: #3498db;
+            font-weight: 500;
+        }
+
+        .btn-back i {
+            margin-right: 8px;
+        }
+
+        /* Order Confirmation */
+        .confirmation {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .confirmation-icon {
+            font-size: 60px;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .confirmation-details {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #7f8c8d;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .invoice-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3498db;
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .invoice-link i {
+            margin-right: 8px;
+        }
+
+        /* Security Notice */
+        .security-notice {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 14px;
+        }
+
+        /* Hidden Sections */
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Iblane<span>Eyewear</span></a>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Checkout Progress -->
+        <div class="checkout-progress">
+            <div class="progress-step completed">
+                <div class="step-circle">1</div>
+                <div class="step-label">Shipping Address</div>
+            </div>
+            <div class="progress-step active">
+                <div class="step-circle">2</div>
+                <div class="step-label">Shipping Method</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Payment</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">4</div>
+                <div class="step-label">Review & Pay</div>
+            </div>
+        </div>
+
+        <div class="checkout-form">
+            <!-- Checkout Steps -->
+            <div class="checkout-steps">
+                <!-- Step 2: Shipping Method -->
+                <div class="form-step active" id="step-shipping-method">
+                    <a href="#" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Shipping Address</a>
+                    
+                    <div class="form-section">
+                        <h2 class="section-title">Shipping Method</h2>
+                        
+                        <div class="shipping-option selected">
+                            <div class="shipping-info">
+                                <div class="shipping-name">Standard Shipping</div>
+                                <div class="shipping-eta">Estimated delivery: 3-7 business days</div>
+                            </div>
+                            <div class="shipping-price">Free</div>
+                        </div>
+                        
+                        <div class="shipping-option">
+                            <div class="shipping-info">
+                                <div class="shipping-name">Express Shipping</div>
+                                <div class="shipping-eta">Estimated delivery: 1-3 business days</div>
+                            </div>
+                            <div class="shipping-price">$9.99</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="goToStep('payment')">Continue to Payment</button>
+                </div>
+                
+                <!-- Step 3: Payment Method -->
+                <div class="form-step" id="step-payment">
+                    <a href="#" class="btn btn-back" onclick="goToStep('shipping-method')"><i class="fas fa-arrow-left"></i> Back to Shipping Method</a>
+                    
+                    <div class="form-section">
+                        <h2 class="section-title">Payment Method</h2>
+                        
+                        <div class="payment-option selected">
+                            <div class="payment-icon">
+                                <i class="fab fa-cc-paypal"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">Paystack</div>
+                                <div class="payment-desc">Secure payment with card, bank transfer, or USSD</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option">
+                            <div class="payment-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">Flutterwave</div>
+                                <div class="payment-desc">Pay with card, mobile money, or bank account</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option">
+                            <div class="payment-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="payment-info">
+                                <div class="payment-name">Bank Transfer</div>
+                                <div class="payment-desc">Direct bank transfer - details provided after order</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="security-notice">
+                        Payments are processed securely by Paystack & Flutterwave. We never store your card details.
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="goToStep('review')">Review Your Order</button>
+                </div>
+                
+                <!-- Step 4: Review & Pay -->
+                <div class="form-step" id="step-review">
+                    <a href="#" class="btn btn-back" onclick="goToStep('payment')"><i class="fas fa-arrow-left"></i> Back to Payment</a>
+                    
+                    <div class="form-section">
+                        <h2 class="section-title">Review Your Order</h2>
+                        
+                        <div class="shipping-review">
+                            <h3>Shipping Address</h3>
+                            <p>John Doe<br>
+                            123 Main Street<br>
+                            New York, NY 10001<br>
+                            United States<br>
+                            Phone: +1 (555) 123-4567</p>
+                        </div>
+                        
+                        <div class="shipping-method-review">
+                            <h3>Shipping Method</h3>
+                            <p>Standard Shipping (Free)<br>
+                            Estimated delivery: 3-7 business days</p>
+                        </div>
+                        
+                        <div class="payment-review">
+                            <h3>Payment Method</h3>
+                            <p>Paystack</p>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="completeOrder()">Place Your Order</button>
+                </div>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2 class="summary-title">Order Summary</h2>
+                
+                <div class="cart-items">
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <i class="fas fa-glasses"></i>
+                        </div>
+                        <div class="item-details">
+                            <div class="item-name">Classic Aviator</div>
+                            <div class="item-price">$129.00 × 1</div>
+                        </div>
+                        <div class="item-total">$129.00</div>
+                    </div>
+                    
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <i class="fas fa-glasses"></i>
+                        </div>
+                        <div class="item-details">
+                            <div class="item-name">Modern Round</div>
+                            <div class="item-price">$149.00 × 1</div>
+                        </div>
+                        <div class="item-total">$149.00</div>
+                    </div>
+                </div>
+                
+                <div class="summary-totals">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span>$278.00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Tax</span>
+                        <span>$22.24</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total</span>
+                        <span>$300.24</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Confirmation (Initially Hidden) -->
+        <div class="confirmation" id="order-confirmation" style="display: none;">
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h1 class="confirmation-title">Order Confirmed!</h1>
+            <p>Thank you for your purchase. Your order has been successfully placed.</p>
+            
+            <div class="confirmation-details">
+                <div class="detail-row">
+                    <span class="detail-label">Order Number</span>
+                    <span class="detail-value">#IBL-2023-7892</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Order Date</span>
+                    <span class="detail-value">October 15, 2023</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Estimated Delivery</span>
+                    <span class="detail-value">October 20-24, 2023</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Total Amount</span>
+                    <span class="detail-value">$300.24</span>
+                </div>
+            </div>
+            
+            <a href="#" class="invoice-link"><i class="fas fa-download"></i> Download Invoice (PDF)</a>
+            
+            <div style="margin-top: 30px;">
+                <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Information</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About Iblane</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Virtual Try-On</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Policies</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                        <li><a href="#">Warranty Information</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Iblane Eyewear. All rights reserved.</p>
+                <p style="margin-top: 10px; font-size: 12px;">
+                    Virtual Try-On: Your facial data is processed locally on your device and is never stored on our servers.
+                    <br>Returns: 30-day return policy — item must be unused, in original packaging; buyer pays return shipping unless faulty.
+                    <br>Warranty: 6 months manufacturing defect warranty.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Function to navigate between checkout steps
+        function goToStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show the selected step
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            // Update progress indicators
+            updateProgress(step);
+        }
+        
+        // Function to update progress indicators
+        function updateProgress(currentStep) {
+            const steps = ['shipping-address', 'shipping-method', 'payment', 'review'];
+            const currentIndex = steps.indexOf(currentStep);
+            
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                
+                if (index < currentIndex) {
+                    step.classList.add('completed');
+                } else if (index === currentIndex) {
+                    step.classList.add('active');
+                }
+            });
+        }
+        
+        // Function to complete the order
+        function completeOrder() {
+            // Hide checkout form
+            document.querySelector('.checkout-form').style.display = 'none';
+            document.querySelector('.checkout-progress').style.display = 'none';
+            
+            // Show confirmation
+            document.getElementById('order-confirmation').style.display = 'block';
+        }
+        
+        // Add interactivity to shipping options
+        document.querySelectorAll('.shipping-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.shipping-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+        
+        // Add interactivity to payment options
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>
