@@ -1031,7 +1031,7 @@
                 <a href="Login.html">Shop</a>
                 <a href="eyewear.html">Eyewear Match</a>
                 <a href="virtual-tryon.html">Virtual Try-On</a>
-                 <a href="about.html">Contact </a>
+                 <a href="contact.html">Contact </a>
             </nav>
             
             <div class="nav-actions">
@@ -1067,104 +1067,197 @@
         </div>
     </section>
 
+<!--  Featured Products -->
+    <!-- New Arrivals Section -->
+<section class="new-arrivals">
+  <style>
+    .new-arrivals {
+      font-family: system-ui, sans-serif;
+      padding: 24px;
+    }
+    .new-arrivals-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .new-arrivals-header h2 {
+      font-size: 1.8rem;
+      margin: 0;
+      font-weight: 600;
+    }
+    .shop-btn {
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s ease;
+    }
+    .shop-btn:hover {
+      background: #f5f5f5;
+    }
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1024px) {
+      .product-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 640px) {
+      .product-list {
+        grid-template-columns: 1fr;
+      }
+    }
+    .product-card {
+      border: 1px solid #eee;
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .img-box {
+      position: relative;
+      width: 100%;
+      height: 160px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .img-box img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .heart {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+    }
+    .virtual-badge {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      border: 1px solid #ccc;
+    }
+    .product-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .colors {
+      display: flex;
+      gap: 6px;
+    }
+    .color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+    }
+  </style>
 
-     <!-- Featured Products -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Premium Eyewear Collection</h2>
-            <p class="section-subtitle">Discover our curated selection of frames designed for style, comfort, and performance</p>
-            
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="./glassrs-image/gla-003.jpg" alt="Aviator Classic">
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Aviator Classic</h3>
-                        <div class="product-price">₦18,500</div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <div class="product-actions">
-                            <a href="virtual-tryon.html" class="btn btn-secondary">Virtual Try-On</a>
-                            <a href="chekout.html" class="btn btn-primary">Buy now</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="./glassrs-image/gla-005.jpg" alt="Round Vintage">
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Round Vintage</h3>
-                        <div class="product-price">₦15,900</div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-actions">
-                            <a href="virtual-tryon.html" class="btn btn-secondary">Virtual Try-On</a>
-                            <a href="chekout.html" class="btn btn-primary">Buy now</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="./glassrs-image/gla-007.jpg" alt="Square Modern">
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Square Modern</h3>
-                        <div class="product-price">₦21,000</div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <div class="product-actions">
-                            <a href="virtual-tryon.html" class="btn btn-secondary">Virtual Try-On</a>
-                            <a href="chekout.html" class="btn btn-primary">Buy now/a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="./glassrs-image/gla-001.jpg" alt="Cat-Eye Elegance">
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Cat-Eye Elegance</h3>
-                        <div class="product-price">₦19,500</div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <div class="product-actions">
-                            <a href="virtual-tryon.html" class="btn btn-secondary">Virtual Try-On</a>
-                            <a href="./chekout.html" class="btn btn-primary">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 4rem;">
-                <a href="Login.html" class="btn btn-secondary">View Complete Collection →</a>
-            </div>
-        </div>
-    </section>
+  <div class="new-arrivals-header">
+    <h2>New arrivals</h2>
+    <button class="shop-btn"> <a href="./Login.html">Shop new arrivals</a></button>
+  </div>
+
+  <div class="product-list" role="list">
+
+    <!-- Card 1 -->
+    <div class="product-card" role="listitem">
+      <div class="img-box">
+        <div class="heart">♡</div>
+        <div class="virtual-badge"> <a href="virtual-tryon.html">Try on virtually</a></div>
+        <!-- Replace placeholder image -->
+        <img src="/glassrs-image/gla-012.jpg" alt="Briony eyeglasses">
+      </div>
+      <div class="product-info">
+        <span>Briony</span>
+        <span>$195</span>
+      </div>
+      <div class="colors">
+        <div class="color-dot" style="background:#6b4f3a;"></div>
+        <div class="color-dot" style="background:#4f677f;"></div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="product-card" role="listitem">
+      <div class="img-box">
+        <div class="heart">♡</div>
+        <img src="/glassrs-image/gla-001.jpg" alt="Brant eyeglasses">
+      </div>
+      <div class="product-info">
+        <span>Brant</span>
+        <span>$195</span>
+      </div>
+      <div class="colors">
+        <div class="color-dot" style="background:#d2b48c;"></div>
+        <div class="color-dot" style="background:#8b5a2b;"></div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="product-card" role="listitem">
+      <div class="img-box">
+        <div class="heart">♡</div>
+        <img src="/glassrs-image/gla-005.jpg" alt="Carson eyeglasses">
+      </div>
+      <div class="product-info">
+        <span>Carson</span>
+        <span>$95</span>
+      </div>
+      <div class="colors">
+        <div class="color-dot" style="background:#d2b48c;"></div>
+        <div class="color-dot" style="background:#8b5a2b;"></div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="product-card" role="listitem">
+      <div class="img-box">
+        <div class="heart">♡</div>
+        <img src="/glassrs-image/gla-002.jpg" alt="Renata eyeglasses">
+      </div>
+      <div class="product-info">
+        <span>Renata</span>
+        <span>$195</span>
+      </div>
+      <div class="colors">
+        <div class="color-dot" style="background:#8d4a32;"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
     <!-- Protective Lenses Section -->
     <section class="protective-lenses">
@@ -1201,7 +1294,7 @@
                 <div class="lens-details">
                     <div class="lens-images">
                         <div class="lens-image">
-                            <img src="./glassrs-image/gla-003.jpg" alt="Blue Cut Photochromic Lens">
+                            <img src="./glassrs-image/gla-001.jpg" alt="Blue Cut Photochromic Lens">
                         </div>
                         <div class="lens-image">
                             <img src="./glassrs-image/gla-005.jpg" alt="Photochromic Technology">
@@ -1284,7 +1377,7 @@
     <!-- Why Choose Us -->
     <section class="section">
         <div class="container">
-            <h2 class="section-title">The IBLAN Difference</h2>
+            <h2 class="section-title">The Iblane Difference</h2>
             <p class="section-subtitle">Experience premium eyewear crafted with precision, technology, and style</p>
             
             <div class="benefits">
