@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iblane Eyewear — Login & Search</title>
+    <title>Shop All Products - Iblane Eyewear</title>
+    <link rel="stylesheet" href="index.html">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS Reset and Variables */
+        /* === CSS RESET & VARIABLES === */
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
@@ -16,7 +17,7 @@
             --accent: #f59e0b;
             --gray-light: #e2e8f0;
             --border-radius: 8px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
 
@@ -27,24 +28,10 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: var(--dark);
             background-color: #fff;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
         }
 
         .container {
@@ -56,7 +43,7 @@
 
         .btn {
             display: inline-block;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: var(--border-radius);
             font-weight: 600;
             cursor: pointer;
@@ -70,35 +57,16 @@
             color: white;
         }
 
-        .btn-primary:hover:not(:disabled) {
+        .btn-primary:hover {
             background-color: var(--primary-dark);
-            transform: translateY(-2px);
         }
 
-        .btn-primary:disabled {
-            background-color: var(--gray-light);
-            color: var(--secondary);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background-color: white;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--light);
-            transform: translateY(-2px);
-        }
-
-        /* Header */
+        /* === HEADER & NAVIGATION === */
         header {
             padding: 1rem 0;
             position: sticky;
             top: 0;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -109,15 +77,39 @@
             justify-content: space-between;
             align-items: center;
         }
+        
+        /* Update your existing .hero class with these background properties */
+.hero {
+    background-image: url('./glassrs-image/your-hero-image.jpg'); /* Replace with your image path */
+    background-size: cover; /* This makes the image cover the entire section */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-color: #f0f9ff; /* Fallback color if image doesn't load */
+    
+    /* Your existing hero styles */
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+}
 
-        .logo {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
+/* Optional: Add an overlay for better text readability */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7); /* White overlay with transparency */
+    z-index: 0;
+}
 
-        .logo span {
-            color: var(--accent);
+.hero-content {
+    position: relative;
+    z-index: 1; /* Ensures content stays above the overlay */
+}
+        .logo img {
+            width: 110px;
         }
 
         .nav-links {
@@ -140,6 +132,26 @@
             align-items: center;
         }
 
+        .search-box {
+            display: flex;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .search-box input {
+            padding: 8px 12px;
+            border: none;
+            outline: none;
+        }
+
+        .search-box button {
+            background: var(--light);
+            border: none;
+            padding: 0 12px;
+            cursor: pointer;
+        }
+
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -148,261 +160,126 @@
             cursor: pointer;
         }
 
-        /* Search Bar */
-        .search-container {
-            position: relative;
-            width: 300px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px 16px;
-            border: 1px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-top: 0.5rem;
-            max-height: 400px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1000;
-        }
-
-        .search-result-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid var(--gray-light);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .search-result-item:hover {
-            background: var(--light);
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .result-image {
-            width: 60px;
-            height: 40px;
-            background: var(--light);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
-
-        .result-info {
-            flex: 1;
-        }
-
-        .result-name {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .result-price {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .result-action {
-            margin-left: 1rem;
-        }
-
-        /* Auth Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 100%;
-            max-width: 450px;
-            max-height: 90vh;
-            overflow: auto;
-            position: relative;
-            animation: modalFadeIn 0.3s ease;
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--secondary);
-            z-index: 10;
-        }
-
-        .auth-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .auth-tab {
-            flex: 1;
-            padding: 1.5rem;
+        /* === SHOP HERO SECTION === */
+        .shop-hero {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 3rem 0;
             text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border-bottom: 3px solid transparent;
+            margin-bottom: 3rem;
         }
 
-        .auth-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .auth-form {
-            padding: 2rem;
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .form-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-checkbox input {
-            width: 18px;
-            height: 18px;
-        }
-
-        .form-checkbox label {
-            font-size: 0.9rem;
-        }
-
-        .form-link {
-            color: var(--primary);
-            font-size: 0.9rem;
-            text-decoration: underline;
-        }
-
-        .form-microcopy {
-            font-size: 0.9rem;
-            color: var(--secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        .form-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: var(--secondary);
-        }
-
-        .form-footer a {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Demo Content */
-        .demo-content {
-            padding: 4rem 0;
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .demo-content h1 {
+        .shop-hero h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
 
-        .demo-content p {
-            font-size: 1.125rem;
+        .shop-hero p {
+            font-size: 1.2rem;
             color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* === PRODUCTS GRID === */
+        .products-section {
+            padding: 2rem 0 4rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
         }
 
-        .demo-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
         }
 
-        /* Footer */
+        .products-count {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-rating {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* === FOOTER === */
         footer {
             background-color: var(--dark);
             color: white;
             padding: 4rem 0 2rem;
-            margin-top: 4rem;
         }
 
         .footer-content {
@@ -429,24 +306,6 @@
         .footer-links a:hover {
             opacity: 1;
             color: var(--accent);
-        }
-
-        .payment-methods {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .payment-icon {
-            width: 40px;
-            height: 25px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
         }
 
         .social-links {
@@ -489,6 +348,28 @@
             color: var(--accent);
         }
 
+        .payment-methods {
+            margin-top: 1.5rem;
+        }
+
+        .payment-icons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            color: #fff;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .payment-icon:hover {
+            opacity: 1;
+        }
+
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
@@ -497,7 +378,65 @@
             opacity: 0.7;
         }
 
-        /* Responsive Design */
+        /* Add this CSS to your existing styles */
+.search-form {
+    display: flex;
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.search-form input[type="search"] {
+    padding: 8px 12px;
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.search-form button {
+    background: var(--light);
+    border: none;
+    padding: 0 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-form button:hover {
+    background: var(--primary);
+    color: white;
+}
+
+        /* === PAGINATION === */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--border-radius);
+            background: white;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--gray-light);
+        }
+        
+        .pagination a.active,
+        .pagination a:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* === RESPONSIVE DESIGN === */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
@@ -507,40 +446,35 @@
                 display: none;
             }
             
-            .search-container {
-                width: 200px;
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1.5rem;
             }
             
-            .demo-content h1 {
-                font-size: 2rem;
-            }
-            
-            .demo-actions {
+            .section-header {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
+                gap: 1rem;
             }
             
-            .demo-actions .btn {
-                width: 100%;
-                max-width: 300px;
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
             }
         }
 
         @media (max-width: 480px) {
-            .search-container {
-                width: 150px;
+            .products-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
             }
             
-            .modal-content {
-                max-width: 100%;
-            }
-            
-            .auth-tabs {
+            .product-actions {
                 flex-direction: column;
             }
             
-            .auth-tab {
-                padding: 1rem;
+            .shop-hero h1 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -549,25 +483,24 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-              <a href="index.html" class="logo"><img style="width: 110px;" src="./logo.png" alt=""></a>
+            <a href="index.html" class="logo"><img src="./logo.png" alt="Iblane Eyewear"></a>
             
-            <nav class="nav-links">
+             <nav class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="shop.html">Shop</a>
+                <a href="Login.html">Shop</a>
                 <a href="eyewear.html">Eyewear Match</a>
                 <a href="virtual-tryon.html">Virtual Try-On</a>
-                <a href="contact.html">Contact</a>
+                 <a href="about.html">Contact </a>
             </nav>
             
             <div class="nav-actions">
-                <!-- Search Bar -->
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Search frames, styles, or SKU (eg. Aviator, #IB-234)" id="search-input">
-                    <div class="search-results" id="search-results"></div>
-                </div>
-                
-                <a href="#" id="user-icon"><i class="fas fa-user"></i></a>
+               <!-- In your header section, replace the existing search box with this: -->
+<div class="search-box">
+    <form id="search-form" class="search-form">
+        <input type="search" id="site-search" placeholder="Search products..." name="q" aria-label="Search through site content">
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+</div>
                 <a href="#"><i class="fas fa-shopping-bag"></i></a>
                 <button class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
@@ -576,31 +509,50 @@
         </div>
     </header>
 
-    <!-- Demo Content -->
-    <section class="demo-content">
+    <!-- Shop Hero Section -->
+    <section class="shop-hero">
         <div class="container">
-            <h1>Experience Iblane Eyewear</h1>
-            <p>Try our virtual try-on technology or find your perfect frames with our eyewear match quiz.</p>
-            <div class="demo-actions">
-                <button class="btn btn-primary" id="try-demo-btn">Try Virtual Try-On</button>
-                <button class="btn btn-secondary" id="quiz-demo-btn">Take Eyewear Quiz</button>
-                <button class="btn btn-secondary" id="login-demo-btn">Login / Sign Up</button>
+            <h1>Premium Eyewear Collection</h1>
+            <p>Discover our complete range of stylish frames with advanced blue-light protection technology</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">All Products</h2>
+                <div class="products-count">Showing 112 products</div>
+            </div>
+            
+            <div class="products-grid" id="products-grid">
+                <!-- Product cards will be dynamically inserted here -->
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#"><i class="fas fa-chevron-right"></i></a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="footer-content">
+        <!-- <div class="container"> -->
+            <!-- <div class="footer-content">
                 <div class="footer-column">
                     <h3>Shop</h3>
                     <ul class="footer-links">
                         <li><a href="shop.html?collection=blue-light">Blue-Light Glasses</a></li>
                         <li><a href="shop.html?collection=everyday">Everyday Frames</a></li>
                         <li><a href="shop.html?collection=titanium">Lightweight Titanium</a></li>
-                        <li><a href="shop.html?collection=kids">Kids Collection</a></li>
-                        <li><a href="shop.html">All Products</a></li>
+                        <li><a href="shop.html?collection=kids">Youth Collection</a></li>
+                        <li><a href="shop.html">Complete Catalog</a></li>
                     </ul>
                 </div>
                 
@@ -610,7 +562,7 @@
                         <li><a href="contact.html">Contact Us</a></li>
                         <li><a href="returns.html">Returns & Exchanges</a></li>
                         <li><a href="shipping.html">Shipping Info</a></li>
-                        <li><a href="size-guide.html">Size Guide</a></li>
+                        <li><a href="size-guide.html">Frame Sizing Guide</a></li>
                         <li><a href="faq.html">FAQ</a></li>
                     </ul>
                 </div>
@@ -644,464 +596,128 @@
                         </a>
                     </div>
                     
-                    <h3 style="margin-top: 2rem;">Payment Methods</h3>
                     <div class="payment-methods">
-                        <div class="payment-icon">Paystack</div>
-                        <div class="payment-icon">Flutterwave</div>
-                        <div class="payment-icon">Bank Transfer</div>
+                        <h4>We Accept</h4>
+                        <div class="payment-icons">
+                            Using Font Awesome payment icons -->
+                            <!-- <i class="fab fa-cc-visa payment-icon" title="Visa"></i>
+                            <i class="fab fa-cc-mastercard payment-icon" title="Mastercard"></i>
+                            <i class="fab fa-cc-amex payment-icon" title="American Express"></i>
+                            <i class="fas fa-mobile-alt payment-icon" title="Mobile Money"></i>
+                            <i class="fas fa-university payment-icon" title="Bank Transfer"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
             <div class="footer-bottom">
-                <p>&copy; 2023 Iblane Eyewear. All rights reserved. | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+                <p>&copy; 2023 Iblane Eyewear. All rights reserved. | <a href="privacy.html" style="color: inherit;">Privacy Policy</a> | <a href="terms.html" style="color: inherit;">Terms of Service</a></p>
             </div>
-        </div>
+        <!-- </div> -->
     </footer>
 
-    <!-- Auth Modal -->
-    <div class="modal" id="auth-modal">
-        <div class="modal-content">
-            <button class="modal-close" id="auth-modal-close">&times;</button>
-            
-            <div class="auth-tabs">
-                <div class="auth-tab active" data-tab="login">Login</div>
-                <div class="auth-tab" data-tab="signup">Sign Up</div>
-            </div>
-            
-            <!-- Login Form -->
-            <form class="auth-form active" id="login-form">
-                <div class="form-group">
-                    <label class="form-label" for="login-email">Email</label>
-                    <input type="email" class="form-input" id="login-email" placeholder="your@email.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="login-password">Password</label>
-                    <input type="password" class="form-input" id="login-password" placeholder="Enter your password" required>
-                </div>
-                
-                <div class="form-checkbox">
-                    <input type="checkbox" id="remember-me">
-                    <label for="remember-me">Remember me</label>
-                </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
-                
-                <div style="text-align: center; margin-top: 1rem;">
-                    <a href="#" class="form-link">Forgot password?</a>
-                </div>
-                
-                <div class="form-footer">
-                    Don't have an account? <a href="#" class="switch-to-signup">Sign up</a>
-                </div>
-            </form>
-            
-            <!-- Sign Up Form -->
-            <form class="auth-form" id="signup-form">
-                <p class="form-microcopy">Sign up to save try-ons, wishlist frames, and speed up checkout.</p>
-                
-                <div class="form-group">
-                    <label class="form-label" for="signup-name">Full Name</label>
-                    <input type="text" class="form-input" id="signup-name" placeholder="Your full name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="signup-email">Email</label>
-                    <input type="email" class="form-input" id="signup-email" placeholder="your@email.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="signup-password">Password</label>
-                    <input type="password" class="form-input" id="signup-password" placeholder="8+ characters" minlength="8" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="signup-confirm">Confirm Password</label>
-                    <input type="password" class="form-input" id="signup-confirm" placeholder="Confirm your password" required>
-                </div>
-                
-                <div class="form-checkbox">
-                    <input type="checkbox" id="accept-terms" required>
-                    <label for="accept-terms">I accept the <a href="terms.html" class="form-link">Terms of Service</a> and <a href="privacy.html" class="form-link">Privacy Policy</a></label>
-                </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Create account</button>
-                
-                <div class="form-footer">
-                    Already have an account? <a href="#" class="switch-to-login">Login</a>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script>
-        // Sample product data for search
+        // Sample product data - in a real application, this would come from a database
         const products = [
-            { id: 1, name: "Aviator Classic", price: "₦15,000", sku: "IB-AV-CL-001", image: "https://via.placeholder.com/60x40.png?text=Aviator" },
-            { id: 2, name: "Round Vintage", price: "₦12,500", sku: "IB-RV-VN-002", image: "https://via.placeholder.com/60x40.png?text=Round" },
-            { id: 3, name: "Square Modern", price: "₦18,000", sku: "IB-SQ-MD-003", image: "https://via.placeholder.com/60x40.png?text=Square" },
-            { id: 4, name: "Cat-Eye Elegance", price: "₦16,500", sku: "IB-CE-EL-004", image: "https://via.placeholder.com/60x40.png?text=Cat-Eye" },
-            { id: 5, name: "Titanium Light", price: "₦22,000", sku: "IB-TI-LT-005", image: "https://via.placeholder.com/60x40.png?text=Titanium" },
-            { id: 6, name: "Classic Black", price: "₦14,000", sku: "IB-CL-BK-006", image: "https://via.placeholder.com/60x40.png?text=Black" },
-            { id: 7, name: "Bold Statement", price: "₦19,500", sku: "IB-BL-ST-007", image: "https://via.placeholder.com/60x40.png?text=Bold" },
-            { id: 8, name: "Minimalist", price: "₦13,000", sku: "IB-MN-ML-008", image: "https://via.placeholder.com/60x40.png?text=Minimal" }
+            { id: 1, name: "Aviator Classic", price: "₦15,000", image: "./glassrs-image/gla-026.jpg", rating: 4.5 },
+            { id: 2, name: "Round Vintage", price: "₦12,500", image: "./glassrs-image/gla-025.jpg", rating: 5 },
+            { id: 3, name: "Square Modern", price: "₦18,000", image: "./glassrs-image/gla-024.jpg", rating: 4 },
+            { id: 4, name: "Cat-Eye Elegance", price: "₦16,500", image: "./glassrs-image/gla-023.jpg", rating: 4.5 },
+            { id: 5, name: "Browline Classic", price: "₦14,500", image: "./glassrs-image/gla-022.jpg", rating: 5 },
+            { id: 6, name: "Sport Performance", price: "₦19,500", image: "./glassrs-image/gla-021.jpg", rating: 4 },
+            { id: 7, name: "Minimalist Thin", price: "₦13,500", image: "./glassrs-image/gla-020.jpg", rating: 4.5 },
+            { id: 8, name: "Oversized Trend", price: "₦17,000", image: "./glassrs-image/gla-019.jpg", rating: 5 }
         ];
 
-        // DOM Elements
-        const searchInput = document.getElementById('search-input');
-        const searchResults = document.getElementById('search-results');
-        const authModal = document.getElementById('auth-modal');
-        const authModalClose = document.getElementById('auth-modal-close');
-        const userIcon = document.getElementById('user-icon');
-        const authTabs = document.querySelectorAll('.auth-tab');
-        const authForms = document.querySelectorAll('.auth-form');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const switchToSignupLinks = document.querySelectorAll('.switch-to-signup');
-        const switchToLoginLinks = document.querySelectorAll('.switch-to-login');
-        const loginDemoBtn = document.getElementById('login-demo-btn');
-
-        // Initialize the page
-        function initPage() {
-            setupEventListeners();
+        // Function to generate star rating HTML
+        function generateStarRating(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
         }
 
-        // Set up event listeners
-        function setupEventListeners() {
-            // Search functionality
-            searchInput.addEventListener('input', handleSearch);
-            searchInput.addEventListener('focus', showSearchResults);
-            document.addEventListener('click', handleClickOutsideSearch);
+        // Function to display products
+        function displayProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            productsGrid.innerHTML = '';
             
-            // Escape key to clear search
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    searchInput.value = '';
-                    hideSearchResults();
-                    searchInput.blur();
-                }
-            });
+            // In a real application, you would fetch products from a database
+            // For demonstration, we're repeating the sample products to reach 100+
+            const totalProducts = 112; // You can adjust this number
             
-            // Auth modal
-            userIcon.addEventListener('click', (e) => {
-                e.preventDefault();
-                openAuthModal('login');
-            });
+            for (let i = 0; i < totalProducts; i++) {
+                const product = products[i % products.length];
+                const productElement = document.createElement('div');
+                productElement.className = 'product-card';
+                productElement.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">${product.name} ${Math.floor(i / products.length) + 1 > 1 ? (Math.floor(i / products.length) + 1) : ''}</h3>
+                        <div class="product-price">${product.price}</div>
+                        <div class="product-rating">
+                            ${generateStarRating(product.rating)}
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary">Add to Cart</button>
+                            <button class="btn btn-secondary">Quick View</button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productElement);
+            }
+        }
+// Add this JavaScript to make the search functional
+document.getElementById('search-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent form from submitting normally
+    const searchTerm = document.getElementById('site-search').value;
+    
+    if (searchTerm.trim()) {
+        // In a real implementation, you would search through your products
+        // For now, we'll just filter the products grid
+        filterProducts(searchTerm);
+    }
+});
+
+function filterProducts(searchTerm) {
+    const products = document.querySelectorAll('.product-card');
+    const searchLower = searchTerm.toLowerCase();
+    
+    products.forEach(product => {
+        const title = product.querySelector('.product-title').textContent.toLowerCase();
+        if (title.includes(searchLower)) {
+            product.style.display = 'block';
+        } else {
+            product.style.display = 'none';
+        }
+    });
+}
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayProducts();
             
-            loginDemoBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openAuthModal('login');
-            });
-            
-            authModalClose.addEventListener('click', closeAuthModal);
-            
-            // Switch between login and signup tabs
-            authTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabName = tab.getAttribute('data-tab');
-                    switchAuthTab(tabName);
-                });
-            });
-            
-            // Switch to signup from login form
-            switchToSignupLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    switchAuthTab('signup');
-                });
-            });
-            
-            // Switch to login from signup form
-            switchToLoginLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    switchAuthTab('login');
-                });
-            });
-            
-            // Form submissions
-            loginForm.addEventListener('submit', handleLogin);
-            signupForm.addEventListener('submit', handleSignup);
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', (e) => {
-                if (e.target === authModal) {
-                    closeAuthModal();
-                }
-            });
-            
-            // Mobile menu
+            // Mobile menu toggle
             document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
                 const navLinks = document.querySelector('.nav-links');
                 navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
             });
-        }
-
-        // Search functionality
-        function handleSearch() {
-            const query = searchInput.value.trim().toLowerCase();
-            
-            if (query.length === 0) {
-                hideSearchResults();
-                return;
-            }
-            
-            // Filter products based on query
-            const filteredProducts = products.filter(product => {
-                return (
-                    product.name.toLowerCase().includes(query) ||
-                    product.sku.toLowerCase().includes(query)
-                );
-            }).slice(0, 6); // Limit to top 6 results
-            
-            displaySearchResults(filteredProducts, query);
-        }
-
-        // Display search results
-        function displaySearchResults(products, query) {
-            if (products.length === 0) {
-                searchResults.innerHTML = `
-                    <div class="search-result-item">
-                        <div class="result-info">
-                            <div class="result-name">No results found for "${query}"</div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                searchResults.innerHTML = products.map(product => `
-                    <div class="search-result-item" data-product-id="${product.id}">
-                        <div class="result-image">
-                            <img src="${product.image}" alt="${product.name}">
-                        </div>
-                        <div class="result-info">
-                            <div class="result-name">${product.name}</div>
-                            <div class="result-price">${product.price}</div>
-                        </div>
-                        <div class="result-action">
-                            <button class="btn btn-secondary btn-small try-on-search-btn">Try On</button>
-                        </div>
-                    </div>
-                `).join('');
-                
-                // Add event listeners to result items
-                document.querySelectorAll('.search-result-item').forEach(item => {
-                    item.addEventListener('click', (e) => {
-                        if (!e.target.classList.contains('try-on-search-btn')) {
-                            const productId = item.getAttribute('data-product-id');
-                            navigateToProduct(productId);
-                        }
-                    });
-                });
-                
-                // Add event listeners to Try On buttons
-                document.querySelectorAll('.try-on-search-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const productId = btn.closest('.search-result-item').getAttribute('data-product-id');
-                        tryOnProduct(productId);
-                    });
-                });
-            }
-            
-            searchResults.style.display = 'block';
-        }
-
-        // Show search results when input is focused
-        function showSearchResults() {
-            if (searchInput.value.trim().length > 0) {
-                handleSearch();
-            }
-        }
-
-        // Hide search results
-        function hideSearchResults() {
-            searchResults.style.display = 'none';
-        }
-
-        // Handle clicks outside search to close results
-        function handleClickOutsideSearch(e) {
-            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-                hideSearchResults();
-            }
-        }
-
-        // Navigate to product page
-        function navigateToProduct(productId) {
-            // In a real implementation, this would navigate to the product page
-            console.log(`Navigating to product ${productId}`);
-            hideSearchResults();
-            searchInput.value = '';
-            
-            // Show success message
-            showToast(`Redirecting to product page`);
-        }
-
-        // Try on product
-        function tryOnProduct(productId) {
-            // In a real implementation, this would open the virtual try-on with the selected product
-            const product = products.find(p => p.id == productId);
-            console.log(`Trying on ${product.name}`);
-            hideSearchResults();
-            searchInput.value = '';
-            
-            // Show success message
-            showToast(`Opening virtual try-on for ${product.name}`);
-        }
-
-        // Auth modal functions
-        function openAuthModal(defaultTab = 'login') {
-            authModal.style.display = 'flex';
-            switchAuthTab(defaultTab);
-        }
-
-        function closeAuthModal() {
-            authModal.style.display = 'none';
-        }
-
-        function switchAuthTab(tabName) {
-            // Update tabs
-            authTabs.forEach(tab => {
-                if (tab.getAttribute('data-tab') === tabName) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
-                }
-            });
-            
-            // Update forms
-            authForms.forEach(form => {
-                if (form.id === `${tabName}-form`) {
-                    form.classList.add('active');
-                } else {
-                    form.classList.remove('active');
-                }
-            });
-        }
-
-        // Form handlers
-        function handleLogin(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            // Basic validation
-            if (!email || !password) {
-                showToast('Please fill in all fields');
-                return;
-            }
-            
-            // In a real implementation, this would send a request to the server
-            console.log('Logging in with:', { email, password });
-            
-            // Simulate API call
-            simulateAPICall(() => {
-                showToast('Login successful!');
-                closeAuthModal();
-                
-                // Update UI to show logged in state
-                userIcon.innerHTML = '<i class="fas fa-user-check"></i>';
-            });
-        }
-
-        function handleSignup(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            const confirmPassword = document.getElementById('signup-confirm').value;
-            const acceptTerms = document.getElementById('accept-terms').checked;
-            
-            // Basic validation
-            if (!name || !email || !password || !confirmPassword) {
-                showToast('Please fill in all fields');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                showToast('Passwords do not match');
-                return;
-            }
-            
-            if (password.length < 8) {
-                showToast('Password must be at least 8 characters');
-                return;
-            }
-            
-            if (!acceptTerms) {
-                showToast('Please accept the terms and conditions');
-                return;
-            }
-            
-            // In a real implementation, this would send a request to the server
-            console.log('Signing up with:', { name, email, password });
-            
-            // Simulate API call
-            simulateAPICall(() => {
-                showToast('Account created successfully!');
-                closeAuthModal();
-                
-                // Update UI to show logged in state
-                userIcon.innerHTML = '<i class="fas fa-user-check"></i>';
-                
-                // Switch to login form for next time
-                switchAuthTab('login');
-            });
-        }
-
-        // Simulate API call with delay
-        function simulateAPICall(callback) {
-            // Show loading state
-            const submitBtn = document.querySelector('.auth-form.active .btn-primary');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Processing...';
-            submitBtn.disabled = true;
-            
-            setTimeout(() => {
-                callback();
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 1500);
-        }
-
-        // Show toast message
-        function showToast(message) {
-            // Create toast element if it doesn't exist
-            let toast = document.getElementById('toast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'toast';
-                toast.style.cssText = `
-                    position: fixed;
-                    bottom: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: var(--dark);
-                    color: white;
-                    padding: 12px 24px;
-                    border-radius: var(--border-radius);
-                    z-index: 1000;
-                    font-size: 0.9rem;
-                    opacity: 0;
-                    transition: opacity 0.3s;
-                `;
-                document.body.appendChild(toast);
-            }
-            
-            // Update message and show
-            toast.textContent = message;
-            toast.style.opacity = '1';
-            
-            // Hide after 3 seconds
-            setTimeout(() => {
-                toast.style.opacity = '0';
-            }, 3000);
-        }
-
-        // Initialize the page when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initPage);
+        });
     </script>
 </body>
 </html>

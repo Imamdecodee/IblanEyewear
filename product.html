@@ -18,6 +18,7 @@
             --gray-light: #e2e8f0;
             --border-radius: 8px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --transition: all 0.3s ease;
         }
 
@@ -74,6 +75,7 @@
         .btn-primary:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
         }
 
         .btn-secondary {
@@ -173,12 +175,18 @@
             margin-bottom: 1rem;
             box-shadow: var(--shadow);
             position: relative;
+            cursor: zoom-in;
         }
 
         .main-image img {
             width: 100%;
             height: auto;
             display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .main-image.zoomed img {
+            transform: scale(1.5);
         }
 
         .image-controls {
@@ -291,6 +299,42 @@
             font-size: 1rem;
         }
 
+        .color-options {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .color-option.active {
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .color-black {
+            background-color: #1a202c;
+        }
+
+        .color-brown {
+            background-color: #744210;
+        }
+
+        .color-blue {
+            background-color: #3182ce;
+        }
+
+        .color-silver {
+            background-color: #a0aec0;
+        }
+
         .dimensions {
             display: flex;
             gap: 1rem;
@@ -337,6 +381,25 @@
 
         .microcopy i {
             color: var(--accent);
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .badge i {
+            color: var(--primary);
         }
 
         /* Specs Table */
@@ -397,6 +460,26 @@
             color: var(--secondary);
         }
 
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--border-radius);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
         .review {
             border-bottom: 1px solid var(--gray-light);
             padding: 1.5rem 0;
@@ -424,6 +507,25 @@
         .review-rating {
             color: var(--accent);
             margin-bottom: 0.5rem;
+        }
+
+        .review-images {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .review-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .review-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .write-review {
@@ -463,6 +565,7 @@
 
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
 
         .product-image {
@@ -615,6 +718,19 @@
             
             .nav-links {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                border-top: 1px solid var(--gray-light);
+            }
+            
+            .nav-links.active {
+                display: flex;
             }
             
             .product-container {
@@ -638,6 +754,10 @@
                 min-width: 120px;
                 text-align: center;
             }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -655,6 +775,10 @@
             
             .products-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .color-options {
+                flex-wrap: wrap;
             }
         }
 
@@ -734,7 +858,7 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-              <a href="index.html" class="logo"><img style="width: 110px;" src="./logo.png" alt=""></a>
+            <a href="index.html" class="logo"><img style="width: 110px;" src="./logo.png" alt="Iblane Eyewear"></a>
             <nav class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="about.html">About</a>
@@ -760,7 +884,7 @@
             <div class="product-container">
                 <!-- Product Images -->
                 <div class="product-images">
-                    <div class="main-image">
+                    <div class="main-image" id="main-image-container">
                         <img src="./glassrs-image/gla-026.jpg" alt="Aviator Classic - Front View" id="main-image">
                         <div class="image-controls">
                             <button id="prev-image"><i class="fas fa-chevron-left"></i></button>
@@ -768,17 +892,23 @@
                         </div>
                     </div>
                     <div class="thumbnail-grid">
-                        <div class="thumbnail active" data-image="https://via.placeholder.com/600x600.png?text=Main+Product+Image">
-                            <img src="./glassrs-image/gla-030.jpg" alt="Aviator Classic - Front View">
+                        <div class="thumbnail active" data-image="./glassrs-image/gla-026.jpg">
+                            <img src="./glassrs-image/gla-026.jpg" alt="Aviator Classic - Front View">
                         </div>
-                        <div class="thumbnail" data-image="https://via.placeholder.com/600x600.png?text=Lifestyle+Image">
-                            <img src="./glassrs-image/gla-029.jpg" alt="Aviator Classic - Lifestyle">
+                        <div class="thumbnail" data-image="./glassrs-image/gla-030.jpg">
+                            <img src="./glassrs-image/gla-030.jpg" alt="Aviator Classic - Side View">
                         </div>
-                        <div class="thumbnail" data-image="https://via.placeholder.com/600x600.png?text=On-Face+Image">
+                        <div class="thumbnail" data-image="./glassrs-image/gla-028.jpg">
                             <img src="./glassrs-image/gla-028.jpg" alt="Aviator Classic - On Face">
                         </div>
-                        <div class="thumbnail" data-image="https://via.placeholder.com/600x600.png?text=Side+View">
-                            <img src="./glassrs-image/gla-027.jpg" alt="Aviator Classic - Side View">
+                        <div class="thumbnail" data-image="./glassrs-image/gla-029.jpg">
+                            <img src="./glassrs-image/gla-029.jpg" alt="Aviator Classic - Lifestyle">
+                        </div>
+                        <div class="thumbnail" data-image="./glassrs-image/gla-027.jpg">
+                            <img src="./glassrs-image/gla-027.jpg" alt="Aviator Classic - Top View">
+                        </div>
+                        <div class="thumbnail" data-image="./glassrs-image/gla-031.jpg">
+                            <img src="./glassrs-image/gla-031.jpg" alt="Aviator Classic - Case Included">
                         </div>
                     </div>
                 </div>
@@ -799,6 +929,17 @@
                     </div>
                     <p class="product-description">Lightweight titanium frame with premium blue-light filtering lenses. Perfect for everyday use with anti-glare coating and prescription-ready options.</p>
 
+                    <!-- Color Options -->
+                    <div class="option-group">
+                        <label class="option-label">Frame Color</label>
+                        <div class="color-options">
+                            <div class="color-option color-black active" data-color="black" title="Black"></div>
+                            <div class="color-option color-brown" data-color="brown" title="Brown Tortoise"></div>
+                            <div class="color-option color-blue" data-color="blue" title="Blue Steel"></div>
+                            <div class="color-option color-silver" data-color="silver" title="Silver"></div>
+                        </div>
+                    </div>
+
                     <!-- Lens Options -->
                     <div class="option-group">
                         <label class="option-label" for="lens-option">Lens Type</label>
@@ -806,6 +947,7 @@
                             <option value="blue-light">Blue-light filtering only</option>
                             <option value="blue-prescription">Blue-light + Prescription ready</option>
                             <option value="prescription-only">Prescription only</option>
+                            <option value="photochromic">Photochromic (Light Adaptive)</option>
                         </select>
                     </div>
 
@@ -831,8 +973,8 @@
 
                     <!-- Action Buttons -->
                     <div class="product-actions">
-                        <button class="btn btn-primary btn-large" id="add-to-cart">Add to Cart</button>
-                        <button class="btn btn-secondary btn-large" id="try-on">Try On</button>
+                        <button class="btn btn-primary btn-large" id="add-to-cart">Buy now</button>
+                        <button class="btn btn-secondary btn-large" id="try-on">Try-On</button>
                     </div>
 
                     <!-- Microcopy -->
@@ -841,6 +983,25 @@
                     </div>
                     <div class="microcopy">
                         <i class="fas fa-shipping-fast"></i> Free shipping on orders over ₦10,000
+                    </div>
+                    <div class="microcopy">
+                        <i class="fas fa-lock"></i> Secure checkout
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="trust-badges">
+                        <div class="badge">
+                            <i class="fas fa-check-circle"></i>
+                            <span>1-Year Warranty</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-award"></i>
+                            <span>Premium Quality</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            <span>Ethically Made</span>
+                        </div>
                     </div>
 
                     <!-- Specifications Table -->
@@ -851,7 +1012,7 @@
                         </tr>
                         <tr>
                             <td>Lens Options</td>
-                            <td>Blue-light filtering, Prescription ready</td>
+                            <td>Blue-light filtering, Prescription ready, Photochromic</td>
                         </tr>
                         <tr>
                             <td>Lens Coatings</td>
@@ -866,6 +1027,10 @@
                             <td>24g</td>
                         </tr>
                         <tr>
+                            <td>Included</td>
+                            <td>Glasses, Hard Case, Microfiber Cloth, Warranty Card</td>
+                        </tr>
+                        <tr>
                             <td>SKU</td>
                             <td>IBL-AV-CL-001</td>
                         </tr>
@@ -877,6 +1042,7 @@
             <div class="tabs">
                 <div class="tab-headers">
                     <div class="tab-header active" data-tab="description">Description</div>
+                    <div class="tab-header" data-tab="features">Key Features</div>
                     <div class="tab-header" data-tab="shipping">Shipping & Returns</div>
                     <div class="tab-header" data-tab="reviews">Reviews (128)</div>
                     <div class="tab-header" data-tab="warranty">Warranty</div>
@@ -887,6 +1053,32 @@
                     <p>The Aviator Classic combines timeless style with modern technology. Crafted from lightweight titanium, these frames offer all-day comfort without compromising on durability.</p>
                     <p>Our premium blue-light filtering lenses protect your eyes from digital screens, reducing eye strain and improving sleep quality. The anti-glare coating minimizes reflections for clearer vision.</p>
                     <p>Available in multiple lens options, including prescription-ready versions. Perfect for professionals, gamers, and anyone who spends significant time in front of screens.</p>
+                </div>
+
+                <div class="tab-content" id="features">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature">
+                            <i class="fas fa-weight-hanging"></i>
+                            <h4>Lightweight Titanium</h4>
+                            <p>Ultra-light frame for all-day comfort</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-laptop"></i>
+                            <h4>Blue Light Protection</h4>
+                            <p>Filters 98% of harmful blue light</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-sun"></i>
+                            <h4>Anti-Glare Coating</h4>
+                            <p>Reduces reflections and eye strain</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Scratch Resistant</h4>
+                            <p>Durable lenses for long-lasting use</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-content" id="shipping">
@@ -915,6 +1107,11 @@
                             <i class="fas fa-star"></i>
                         </div>
                         <p>These glasses have significantly reduced my eye strain after long coding sessions. The fit is perfect and they look great too!</p>
+                        <div class="review-images">
+                            <div class="review-image">
+                                <img src="./glassrs-image/gla-028.jpg" alt="Customer photo">
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="review">
@@ -930,6 +1127,21 @@
                             <i class="fas fa-star-half-alt"></i>
                         </div>
                         <p>Lightweight and comfortable. I wear them all day at work and hardly notice they're on. The blue-light filtering really makes a difference.</p>
+                    </div>
+
+                    <div class="review">
+                        <div class="review-header">
+                            <div class="review-author">Tunde K.</div>
+                            <div class="review-date">February 10, 2023</div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>Best investment I've made for my eye health. The photochromic lenses are perfect for transitioning between indoor and outdoor use.</p>
                     </div>
                     
                     <div class="write-review">
@@ -956,7 +1168,7 @@
             <div class="products-grid">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="./glassrs-image/gla-026.jpg" alt="Round Vintage Glasses">
+                        <img src="./glassrs-image/gla-025.jpg" alt="Round Vintage Glasses">
                     </div>
                     <div class="product-content">
                         <h3 class="product-title">Round Vintage</h3>
@@ -977,7 +1189,7 @@
                 
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="./glassrs-image/gla-025.jpg" alt="Square Modern Glasses">
+                        <img src="./glassrs-image/gla-024.jpg" alt="Square Modern Glasses">
                     </div>
                     <div class="product-content">
                         <h3 class="product-title">Square Modern</h3>
@@ -998,7 +1210,7 @@
                 
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="./glassrs-image/gla-024.jpg" alt="Cat-Eye Elegance Glasses">
+                        <img src="./glassrs-image/gla-023.jpg" alt="Cat-Eye Elegance Glasses">
                     </div>
                     <div class="product-content">
                         <h3 class="product-title">Cat-Eye Elegance</h3>
@@ -1009,6 +1221,27 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="product-actions-small">
+                            <button class="btn btn-primary">Add to Cart</button>
+                            <button class="btn btn-secondary">View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="./glassrs-image/gla-022.jpg" alt="Browline Glasses">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Browline Classic</h3>
+                        <div class="product-price">₦14,500</div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
                         </div>
                         <div class="product-actions-small">
                             <button class="btn btn-primary">Add to Cart</button>
@@ -1036,7 +1269,7 @@
             
             <div class="tryon-preview">
                 <div class="tryon-preview-image">
-                    <img src="./glassrs-image/gla-023.jpg" alt="Virtual Try-On Preview">
+                    <img src="./glassrs-image/gla-028.jpg" alt="Virtual Try-On Preview">
                 </div>
                 <div class="tryon-preview-info">
                     <h3>Aviator Classic</h3>
@@ -1133,26 +1366,30 @@
         // Mobile menu toggle
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             const navLinks = document.querySelector('.nav-links');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.classList.toggle('active');
         });
 
         // Update mobile menu display on window resize
         window.addEventListener('resize', function() {
             const navLinks = document.querySelector('.nav-links');
             if (window.innerWidth > 768) {
-                navLinks.style.display = 'flex';
-            } else {
-                navLinks.style.display = 'none';
+                navLinks.classList.remove('active');
             }
         });
 
         // Image carousel functionality
         const mainImage = document.getElementById('main-image');
+        const mainImageContainer = document.getElementById('main-image-container');
         const thumbnails = document.querySelectorAll('.thumbnail');
         const prevButton = document.getElementById('prev-image');
         const nextButton = document.getElementById('next-image');
         
         let currentImageIndex = 0;
+        
+        // Add click to zoom functionality
+        mainImageContainer.addEventListener('click', function() {
+            this.classList.toggle('zoomed');
+        });
         
         thumbnails.forEach((thumbnail, index) => {
             thumbnail.addEventListener('click', function() {
@@ -1165,6 +1402,7 @@
                 this.classList.add('active');
                 
                 currentImageIndex = index;
+                mainImageContainer.classList.remove('zoomed');
             });
         });
         
@@ -1184,7 +1422,23 @@
             
             thumbnails.forEach(thumb => thumb.classList.remove('active'));
             thumbnails[currentImageIndex].classList.add('active');
+            mainImageContainer.classList.remove('zoomed');
         }
+
+        // Color options functionality
+        const colorOptions = document.querySelectorAll('.color-option');
+        
+        colorOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const color = this.getAttribute('data-color');
+                
+                colorOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                
+                // In a real implementation, you would update product images based on color
+                console.log(`Selected color: ${color}`);
+            });
+        });
 
         // Tab functionality
         const tabHeaders = document.querySelectorAll('.tab-header');
@@ -1230,9 +1484,10 @@
             const productName = document.querySelector('.product-title').textContent;
             const productPrice = document.querySelector('.product-price').textContent;
             const lensOption = document.getElementById('lens-option').value;
+            const activeColor = document.querySelector('.color-option.active').getAttribute('data-color');
             
             // Simple cart notification
-            alert(`${productName} (${lensOption}) added to cart!`);
+            alert(`${productName} (${activeColor}, ${lensOption}) added to cart!`);
             
             // In a real implementation, you would add to a cart object or send to backend
         });
